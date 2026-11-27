@@ -63,7 +63,7 @@ REACTIVE=$(deploy "$LASNA_RPC" "$REACTIVE_FUNDING" src/HomingReactive.sol:Homing
 
 echo "[2/5] Vault → Sepolia"
 VAULT=$(deploy "$SEPOLIA_RPC" "$VAULT_FUNDING" src/Vault.sol:Vault \
-  $SEPOLIA_CALLBACK_PROXY "$REACTIVE" $CHANGE_DELAY)
+  $SEPOLIA_CALLBACK_PROXY "$REACTIVE" $CHANGE_DELAY $REGISTRY)
 
 echo "[3/5] HomeToken → Sepolia"
 TOKEN=$(deploy "$SEPOLIA_RPC" 0 src/HomeToken.sol:HomeToken)

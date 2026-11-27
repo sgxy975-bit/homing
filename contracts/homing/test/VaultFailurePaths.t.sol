@@ -4,7 +4,7 @@ pragma solidity ^0.8.29;
 import { Test } from "forge-std/Test.sol";
 import { IPayable } from "@reactive/src/interfaces/IPayable.sol";
 import { WalletRegistry } from "../src/WalletRegistry.sol";
-import { Vault } from "../src/Vault.sol";
+import { Vault, IWalletRegistry } from "../src/Vault.sol";
 
 /// @notice 测试用的最小 ERC20（与 Vault.t.sol 里的同一个，只是本文件自带一份，
 ///         这样本文件拷进 starter/test 就能直接跑，不用改原文件）。
@@ -52,8 +52,10 @@ contract VaultFailurePathsTest is Test {
     function setUp() public {
         registry = new WalletRegistry();
         token = new MockERC20B();
-        vault = new Vault(IPayable(payable(proxy)), reactive, 1 days);
+        vault = new Vault(IPayable(payable(proxy)), reactive, 1 days, IWalletRegistry(address(registry)));
 
+        vm.prank(owner);
+        registry.register(owner, 0); // 日常钱包
         vm.prank(forgotten);
         registry.register(owner, 2); // 可归集
         vm.prank(cold);
@@ -62,11 +64,11 @@ contract VaultFailurePathsTest is Test {
         vm.prank(owner);
         vault.configure(owner, heir, 30 days, 7 days, 365 days, false);
         vm.prank(owner);
-        vault.linkWallet(owner, 0); // 日常钱包
+        vault.linkWallet(owner); // 日常钱包
         vm.prank(owner);
-        vault.linkWallet(forgotten, 2);
+        vault.linkWallet(forgotten);
         vm.prank(owner);
-        vault.linkWallet(cold, 1);
+        vault.linkWallet(cold);
         vm.prank(owner);
         vault.setTokenAllowed(address(token), true);
 
@@ -128,8 +130,10 @@ contract VaultFailurePathsTest is Test {
     /// 余额为零的钱包：归集只跳过，不 revert
     function test_sweepEmptyWalletSkips() public {
         address empty = address(0x6666);
+        vm.prank(empty);
+        registry.register(owner, 2);
         vm.prank(owner);
-        vault.linkWallet(empty, 2);
+        vault.linkWallet(empty);
         vm.warp(block.timestamp + 37 days);
         vm.prank(proxy);
         vault.onSweep(reactive, 11155111, 0x1234, empty);
@@ -172,16 +176,38 @@ contract VaultFailurePathsTest is Test {
         vault.claim(owner);
     }
 
-    /// 继承含冷钱包：配置改成 coldIncluded=true 后，继承人领走
-    /// 可归集钱包 + 冷钱包的币，共 200 个
+    /// 继承含冷钱包：用户一开始就选 coldIncluded=true，继承人领走
+    /// 可归集钱包 + 冷钱包的币，共 200 个（configure 只能调一次，所以用另一个用户演示）
     function test_claimIncludesColdWhenEnabled() public {
-        vm.prank(owner);
-        vault.configure(owner, heir, 30 days, 7 days, 365 days, true);
+        address owner2 = address(0x1112);
+        address sweep2 = address(0x2223);
+        address cold2 = address(0x3334);
+        address heir2 = address(0x4445);
+        vm.prank(owner2);
+        registry.register(owner2, 0);
+        vm.prank(sweep2);
+        registry.register(owner2, 2);
+        vm.prank(cold2);
+        registry.register(owner2, 1);
+        vm.startPrank(owner2);
+        vault.configure(owner2, heir2, 30 days, 7 days, 365 days, true);
+        vault.linkWallet(owner2);
+        vault.linkWallet(sweep2);
+        vault.linkWallet(cold2);
+        vault.setTokenAllowed(address(token), true);
+        vm.stopPrank();
+        token.mint(sweep2, 100 ether);
+        token.mint(cold2, 100 ether);
+        vm.prank(sweep2);
+        token.approve(address(vault), type(uint256).max);
+        vm.prank(cold2);
+        token.approve(address(vault), type(uint256).max);
+
         vm.warp(block.timestamp + 366 days);
-        vm.prank(heir);
-        vault.claim(owner);
-        assertEq(token.balanceOf(heir), 200 ether);
-        assertEq(token.balanceOf(cold), 0);
+        vm.prank(heir2);
+        vault.claim(owner2);
+        assertEq(token.balanceOf(heir2), 200 ether);
+        assertEq(token.balanceOf(cold2), 0);
     }
 
     /// 登记簿：标签只能是 0/1/2，登记过的钱包不能再登记

@@ -4,7 +4,7 @@ pragma solidity ^0.8.29;
 import { Test } from "forge-std/Test.sol";
 import { IPayable } from "@reactive/src/interfaces/IPayable.sol";
 import { WalletRegistry } from "../src/WalletRegistry.sol";
-import { Vault } from "../src/Vault.sol";
+import { Vault, IWalletRegistry } from "../src/Vault.sol";
 
 /// @notice 测试用的最小 ERC20：Homing 的归集靠授权 + transferFrom，需要它来演。
 contract MockERC20 {
@@ -47,9 +47,11 @@ contract VaultTest is Test {
     function setUp() public {
         registry = new WalletRegistry();
         token = new MockERC20();
-        vault = new Vault(IPayable(payable(proxy)), reactive, 1 days);
+        vault = new Vault(IPayable(payable(proxy)), reactive, 1 days, IWalletRegistry(address(registry)));
 
-        // 登记簿：两个钱包各自来登记，都归 owner
+        // 登记簿：三个钱包各自来登记，都归 owner（主钱包自己也登记）
+        vm.prank(owner);
+        registry.register(owner, 0);
         vm.prank(forgotten);
         registry.register(owner, 2); // 可归集
         vm.prank(cold);
@@ -59,11 +61,11 @@ contract VaultTest is Test {
         vm.prank(owner);
         vault.configure(owner, heir, 30 days, 7 days, 365 days, false);
         vm.prank(owner);
-        vault.linkWallet(owner, 0); // 日常钱包
+        vault.linkWallet(owner); // 日常钱包
         vm.prank(owner);
-        vault.linkWallet(forgotten, 2);
+        vault.linkWallet(forgotten);
         vm.prank(owner);
-        vault.linkWallet(cold, 1);
+        vault.linkWallet(cold);
         vm.prank(owner);
         vault.setTokenAllowed(address(token), true);
 
@@ -77,8 +79,6 @@ contract VaultTest is Test {
     }
 
     function test_registerStoresFields() public {
-        vm.prank(owner);
-        registry.register(owner, 0); // 日常钱包本人登记
         WalletRegistry.Entry memory e = registry.getEntry(forgotten);
         assertEq(e.owner, owner);
         assertEq(e.tag, 2);

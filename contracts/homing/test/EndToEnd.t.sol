@@ -7,7 +7,7 @@ import { IPayable } from "@reactive/src/interfaces/IPayable.sol";
 import { ISystemContract } from "@reactive/src/interfaces/ISystemContract.sol";
 import { HomingReactive } from "../src/HomingReactive.sol";
 import { WalletRegistry } from "../src/WalletRegistry.sol";
-import { Vault } from "../src/Vault.sol";
+import { Vault, IWalletRegistry } from "../src/Vault.sol";
 import { MockSystem, MockProxy } from "./HomingReactive.t.sol";
 
 contract E2EToken {
@@ -50,26 +50,28 @@ contract EndToEndTest is Test {
         chains[0] = SEPOLIA;
         chains[1] = 84532;
         rc = new HomingReactive{ value: 1 ether }(SEPOLIA, address(registry), chains, 300, 60);
-        vault = new Vault{ value: 0.1 ether }(IPayable(payable(address(proxy))), address(rc), 1 days);
+        vault = new Vault{ value: 0.1 ether }(IPayable(payable(address(proxy))), address(rc), 1 days, IWalletRegistry(address(registry)));
         rc.setVault(address(vault));
         rc.setClock(true, 100);
+
+        // 钱包本人先在登记簿登记 → 产生 WalletAdded（Reactive 开始盯）
+        vm.recordLogs();
+        vm.prank(owner);
+        registry.register(owner, 0);
+        vm.prank(forgotten);
+        registry.register(owner, 2);
+        _forward(vm.getRecordedLogs());
 
         // 用户在金库里配置：演示用 等待 240 秒 + 宽限 60 秒 = 300 秒
         vm.startPrank(owner);
         vault.configure(owner, heir, 240, 60, 365 days, false);
-        vault.linkWallet(owner, 0);
-        vault.linkWallet(forgotten, 2);
+        vault.linkWallet(owner);
+        vault.linkWallet(forgotten);
         vault.setTokenAllowed(address(token), true);
         vm.stopPrank();
         token.mint(forgotten, 100 ether);
         vm.prank(forgotten);
         token.approve(address(vault), type(uint256).max);
-
-        // 钱包本人在登记簿登记 → 产生 WalletAdded
-        vm.recordLogs();
-        vm.prank(forgotten);
-        registry.register(owner, 2);
-        _forward(vm.getRecordedLogs());
     }
 
     /// 把真实合约发出的日志转成 LogRecord 喂给 react()（模拟 Reactive Network）
@@ -111,7 +113,7 @@ contract EndToEndTest is Test {
     }
 
     function test_e2e_forgottenWalletComesHome() public {
-        assertEq(rc.walletCount(), 1);
+        assertEq(rc.walletCount(), 2); // 主钱包 + 被遗忘的钱包
 
         vm.warp(block.timestamp + 301);
         _tick();
@@ -144,18 +146,33 @@ contract EndToEndTest is Test {
     }
 
     function test_e2e_vaultStricterThanReactive_retriesLater() public {
-        // 用户把金库期限改严：等待 600 + 宽限 0
-        vm.prank(owner);
-        vault.configure(owner, heir, 600, 0, 365 days, false);
+        // 另一个用户把金库期限设得比 Reactive 严：等待 600 + 宽限 0
+        address owner2 = address(0x1112);
+        address w2 = address(0x2223);
+        vm.recordLogs();
+        vm.prank(owner2);
+        registry.register(owner2, 0);
+        vm.prank(w2);
+        registry.register(owner2, 2);
+        _forward(vm.getRecordedLogs());
+        vm.startPrank(owner2);
+        vault.configure(owner2, heir, 600, 0, 365 days, false);
+        vault.linkWallet(owner2);
+        vault.linkWallet(w2);
+        vault.setTokenAllowed(address(token), true);
+        vm.stopPrank();
+        token.mint(w2, 100 ether);
+        vm.prank(w2);
+        token.approve(address(vault), type(uint256).max);
 
         vm.warp(block.timestamp + 301);
         _tick();
         _deliverAll(); // Reactive 觉得到期了，金库复核没过 → 跳过
-        assertEq(token.balanceOf(forgotten), 100 ether);
+        assertEq(token.balanceOf(w2), 100 ether);
 
         vm.warp(block.timestamp + 301); // 共 602 秒
         _tick();
         _deliverAll(); // 重试 → 这次复核通过
-        assertEq(token.balanceOf(owner), 100 ether);
+        assertEq(token.balanceOf(owner2), 100 ether);
     }
 }
