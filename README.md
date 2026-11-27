@@ -175,6 +175,7 @@ These are planned but **not built yet**:
 - 📨 **Email or Telegram reminders** (off-chain)
 - ⛽ **Auto top-up of fees on both sides** (lREACT and ETH)
 - 👛 **Create wallets inside the app and register them automatically**
+- ✍️ **One-step setup for all wallets**: each wallet signs a free off-chain message (EIP-712), and the primary wallet submits all signatures in one transaction; token approvals become signatures too (Permit / Permit2), so there's no transaction per token
 
 **Plans (idea):**
 
