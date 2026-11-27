@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homing — every wallet finds its way home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F8F3E7; --cream-2:#EFE8D6; --line:#DDD3BC;
+    --ink:#1C1C1E; --ink-2:#55524A; --ink-3:#7A7466;
+    --orange:#F05C00; --orange-soft:#FCE3D2;
+    --green:#1E7A4F; --green-soft:#DCEBDF;
+    --blue:#2F4FA8; --blue-soft:#DEE4F4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  button{font:inherit;cursor:pointer}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:.92em}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+  .pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 22px;border-radius:999px;font-weight:600;font-size:16px;border:1.5px solid transparent;transition:transform .15s ease, background .15s ease}
+  .pill:hover{transform:translateY(-1px)}
+  .pill-dark{background:var(--ink);color:var(--cream)}
+  .pill-orange{background:var(--orange);color:#fff}
+  .pill-line{background:transparent;color:var(--orange);border-color:var(--orange)}
+  .pill-glass{background:rgba(248,243,231,.14);color:var(--cream);border-color:rgba(248,243,231,.35);backdrop-filter:blur(8px)}
+
+  /* nav */
+  nav.top{position:sticky;top:0;z-index:10;background:rgba(28,28,30,.92);backdrop-filter:blur(10px);color:var(--cream)}
+  nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;font-family:Anton,sans-serif;font-size:26px;letter-spacing:.5px;text-decoration:none}
+  .links{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .links a{text-decoration:none;padding:10px 12px;border-radius:999px;font-weight:500;font-size:15px;color:rgba(248,243,231,.8)}
+  .links a:hover{color:var(--cream);background:rgba(248,243,231,.08)}
+
+  /* hero */
+  .hero{background:var(--ink);color:var(--cream);position:relative;overflow:hidden}
+  .hero .wrap{padding-top:72px;padding-bottom:88px;display:flex;flex-wrap:wrap;gap:48px;align-items:flex-end;justify-content:space-between}
+  .hero h1{font-family:Anton,sans-serif;font-weight:400;font-size:clamp(56px,9vw,124px);line-height:.95;letter-spacing:1px;margin:0;text-transform:uppercase}
+  .hero h1 em{font-style:normal;color:var(--orange)}
+  .hero p{max-width:440px;margin:0 0 24px;color:rgba(248,243,231,.78);font-size:18px}
+  .sun{position:absolute;right:-140px;top:-160px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle at 40% 40%, #FF8A3D 0%, #F05C00 45%, rgba(240,92,0,0) 70%);opacity:.55;pointer-events:none}
+  .badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--orange);margin-bottom:20px}
+  .badge::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange)}
+
+  /* sections */
+  section.block{padding:72px 0 0}
+  .eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+  h2.serif{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(36px,4.4vw,52px);line-height:1.05;margin:0}
+  h2.serif i{color:var(--orange)}
+  .head-row{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:28px}
+
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:1.5px solid var(--ink);border-bottom:1px solid var(--line)}
+  .stat{padding:22px 20px 24px;border-left:1px solid var(--line)}
+  .stat:first-child{border-left:0;padding-left:0}
+  .stat .n{font-family:Anton,sans-serif;font-size:48px;line-height:1;letter-spacing:.5px}
+  .stat .l{color:var(--ink-2);font-size:14px;margin-top:8px}
+
+  /* wallets */
+  .grid{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start}
+  .wallets{flex:999 1 560px;min-width:0;display:flex;flex-direction:column;gap:14px}
+  .card{background:#FFFDF7;border:1px solid var(--line);border-radius:24px;padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+  .card.warn{background:var(--orange-soft);border-color:#F4B88E}
+  .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+  .addr{font-weight:600;font-size:17px}
+  .meta{color:var(--ink-2);font-size:14px}
+  .tag{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--cream-2);color:var(--ink-2)}
+  .status{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:14px;padding:8px 14px;border-radius:999px}
+  .s-active{background:var(--green-soft);color:var(--green)}
+  .s-warn{background:#fff;color:#B44400}
+  .s-home{background:var(--blue-soft);color:var(--blue)}
+  .s-cold{background:var(--cream-2);color:var(--ink-2)}
+  .dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+  .count{font-family:Anton,sans-serif;font-size:44px;line-height:1;color:#B44400;letter-spacing:1px}
+  .bar{height:6px;border-radius:999px;background:rgba(180,68,0,.15);overflow:hidden}
+  .bar>div{height:100%;background:var(--orange);transition:width 1s linear}
+
+  /* register */
+  .register{flex:1 1 340px;min-width:0;background:var(--ink);color:var(--cream);border-radius:28px;padding:28px;display:flex;flex-direction:column;gap:18px;position:sticky;top:88px}
+  .register h3{font-family:'Instrument Serif',serif;font-weight:400;font-size:34px;line-height:1.05;margin:0}
+  .register label,.register legend{display:flex;flex-direction:column;gap:8px;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:rgba(248,243,231,.65)}
+  .register input,.register select{min-height:48px;border-radius:14px;border:1px solid rgba(248,243,231,.2);background:rgba(248,243,231,.06);color:var(--cream);padding:0 14px;font:inherit;font-size:15px;text-transform:none;letter-spacing:0}
+  .register select option{color:var(--ink)}
+  .register input:focus,.register select:focus{outline:2px solid var(--orange);outline-offset:1px}
+  fieldset{border:0;margin:0;padding:0}
+  .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+  .seg button{min-height:44px;border-radius:999px;border:1px solid rgba(248,243,231,.25);background:transparent;color:var(--cream);font-weight:600;font-size:14px}
+  .seg button[aria-pressed="true"]{background:var(--cream);color:var(--ink);border-color:var(--cream)}
+  .steps{margin:0;padding:14px 16px 14px 34px;border-radius:14px;background:rgba(248,243,231,.06);color:rgba(248,243,231,.8);font-size:14px;line-height:1.8}
+  .fine{margin:0;color:rgba(248,243,231,.55);font-size:13px}
+
+  /* activity */
+  .table-box{overflow-x:auto;border-top:1.5px solid var(--ink)}
+  table{width:100%;min-width:720px;border-collapse:collapse;font-size:15px}
+  th{text-align:left;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:14px 10px 12px 0}
+  td{padding:16px 10px 16px 0;border-top:1px solid var(--line);vertical-align:top}
+  td a{color:var(--orange);font-weight:600;text-decoration:none}
+  td a:hover{text-decoration:underline}
+  .ev{font-weight:700}
+
+  /* how */
+  .how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .how div{border-top:1.5px solid var(--ink);padding-top:16px}
+  .how b{font-family:Anton,sans-serif;font-weight:400;font-size:28px;color:var(--orange);display:block;margin-bottom:6px}
+  .how h4{margin:0 0 6px;font-size:18px}
+  .how p{margin:0;color:var(--ink-2);font-size:15px}
+
+  footer{margin-top:96px;padding:56px 0 64px;border-top:1px solid var(--line)}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-end}
+  footer .big{font-family:'Instrument Serif',serif;font-size:40px;line-height:1.05;max-width:560px}
+  footer .big i{color:var(--orange)}
+
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--cream);padding:14px 22px;border-radius:999px;font-weight:600;transition:transform .3s ease;z-index:20}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:720px){
+    .wrap{padding:0 20px}
+    .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .stat:nth-child(3){border-left:0;padding-left:0}
+    .how{grid-template-columns:1fr}
+    .register{position:static}
+  }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Homing home">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#F05C00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M12 20V10"/><path d="m8 14 4-4 4 4"/></svg>
+      HOMING
+    </a>
+    <div class="links">
+      <a href="#wallets">Wallets</a>
+      <a href="#register">Register</a>
+      <a href="#activity">Activity</a>
+      <a href="#how">How it works</a>
+      <button id="connect" class="pill pill-glass" type="button">Connect wallet</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="sun" aria-hidden="true"></div>
+  <div class="wrap">
+    <div>
+      <div class="badge">Live on testnet · Reactive Network</div>
+      <h1>Every wallet<br>finds its way <em>home.</em></h1>
+    </div>
+    <div>
+      <p>Forgot a wallet three chains ago? Homing watches every address you register. When one goes quiet for too long, it warns you — then brings the tokens home to your main wallet. No server. No one to trust but the chain.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="pill pill-orange" href="#register" style="text-decoration:none">Register a wallet</a>
+        <a class="pill pill-glass" href="#how" style="text-decoration:none">How it works</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="block" aria-label="Summary">
+    <div class="stats">
+      <div class="stat"><div class="n" id="st-total">4</div><div class="l">wallets watched · 2 chains</div></div>
+      <div class="stat"><div class="n" id="st-active" style="color:var(--green)">1</div><div class="l">active — proving you're here</div></div>
+      <div class="stat"><div class="n" id="st-warn" style="color:var(--orange)">1</div><div class="l">going quiet</div></div>
+      <div class="stat"><div class="n" id="st-home" style="color:var(--blue)">50</div><div class="l">HMT brought home</div></div>
+    </div>
+  </section>
+
+  <section class="block" id="wallets">
+    <div class="head-row">
+      <div>
+        <p class="eyebrow">Your wallets</p>
+        <h2 class="serif">Nothing left <i>behind.</i></h2>
+      </div>
+      <span class="meta">Checked about every 2 minutes on Reactive Lasna · demo data</span>
+    </div>
+    <div class="grid">
+      <div class="wallets" id="wallet-list"></div>
+
+      <form class="register" id="register" aria-label="Register a wallet">
+        <h3>Register a wallet</h3>
+        <label>Wallet address<input id="f-addr" class="mono" placeholder="0x…" autocomplete="off" required></label>
+        <label>Chain
+          <select id="f-chain"><option>Ethereum Sepolia</option><option>Base Sepolia</option></select>
+        </label>
+        <fieldset>
+          <legend>Type</legend>
+          <div class="seg" id="f-type">
+            <button type="button" data-v="Daily" aria-pressed="false">Daily</button>
+            <button type="button" data-v="Cold" aria-pressed="false">Cold</button>
+            <button type="button" data-v="Sweepable" aria-pressed="true">Sweepable</button>
+          </div>
+        </fieldset>
+        <label>Bring home if idle for
+          <select id="f-idle"><option value="300">5 minutes (demo)</option><option value="2592000">30 days</option><option value="7776000">90 days</option><option value="31536000">1 year</option></select>
+        </label>
+        <ol class="steps"><li>Register in the Homing registry</li><li>Approve the vault to move this wallet's tokens</li></ol>
+        <button class="pill pill-orange" type="submit" style="min-height:52px;font-size:17px">Register &amp; approve</button>
+        <p class="fine">Tokens only ever go to your main wallet. Changing it takes effect after a waiting period.</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="block" id="activity">
+    <div class="head-row">
+      <div>
+        <p class="eyebrow">Activity</p>
+        <h2 class="serif">Every step, <i>on-chain.</i></h2>
+      </div>
+      <span class="meta">Click any hash to verify it yourself</span>
+    </div>
+    <div class="table-box">
+      <table>
+        <thead><tr><th>Time</th><th>Event</th><th>Where</th><th>Transaction</th></tr></thead>
+        <tbody id="log"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="how">
+    <div class="head-row"><div><p class="eyebrow">How it works</p><h2 class="serif">Three contracts, <i>one promise.</i></h2></div></div>
+    <div class="how">
+      <div><b>01</b><h4>Register</h4><p>Add each wallet to the registry on Sepolia and tag it daily, cold or sweepable.</p></div>
+      <div><b>02</b><h4>Watch</h4><p>A Reactive contract on Lasna listens to every outgoing transfer, across chains. Activity resets the clock.</p></div>
+      <div><b>03</b><h4>Bring home</h4><p>When a sweepable wallet stays quiet past its limit, the vault moves its tokens back to your main wallet.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="big">Your money shouldn't get <i>lost</i> just because you did.</div>
+    <div class="meta">Homing · Reactive Omni Buildathon 2026 · testnet only</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // ---- demo state (replace with on-chain reads: registry + vault + reactive events) ----
+  const now = () => Math.floor(Date.now() / 1000);
+  const wallets = [
+    { addr: '0xD1a4…7c21', chain: 'Base Sepolia', type: 'Daily', idle: 300, lastSeen: now() - 60, bal: 0 },
+    { addr: '0xF0e2…19ab', chain: 'Ethereum Sepolia', type: 'Sweepable', idle: 300, lastSeen: now() - 150, bal: 120 },
+    { addr: '0xA3b9…44d0', chain: 'Ethereum Sepolia', type: 'Sweepable', idle: 300, lastSeen: now() - 900, bal: 0, swept: 50 },
+    { addr: '0xC01d…88e3', chain: 'Ethereum Sepolia', type: 'Cold', idle: 0, lastSeen: now() - 86400, bal: 0 },
+  ];
+  const log = [
+    { t: '12:41', ev: 'Brought home', color: 'var(--blue)', text: '50 HMT from 0xA3b9…44d0 to your main wallet', where: 'Sepolia · vault callback', tx: '0xb394…a36a' },
+    { t: '12:41', ev: 'Sweep requested', color: 'var(--orange)', text: 'for 0xA3b9…44d0 · idle 5 min', where: 'Lasna · react()', tx: '0x06d2…ced2' },
+    { t: '12:38', ev: 'Activity', color: 'var(--green)', text: '0xD1a4…7c21 sent a transfer', where: 'Base Sepolia → Lasna', tx: '0x971e…decb' },
+    { t: '12:30', ev: 'Registered', color: 'var(--ink)', text: '0xF0e2…19ab as sweepable', where: 'Sepolia · registry', tx: '0x70da…e541', href: 'https://sepolia.etherscan.io/tx/0x70dab321500f6a93e7975ede13b323ea67e9137dcb9fb84569316bc7a51ee541' },
+  ];
+  let homeTotal = 50;
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt = (s) => { s = Math.max(0, s); const m = Math.floor(s / 60), r = s % 60; return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0'); };
+  const ago = (s) => s < 60 ? s + ' s ago' : s < 3600 ? Math.floor(s / 60) + ' min ago' : s < 86400 ? Math.floor(s / 3600) + ' h ago' : Math.floor(s / 86400) + ' d ago';
+  const clock = () => new Date().toTimeString().slice(0, 5);
+
+  function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2600); }
+
+  function state(w) {
+    if (w.type === 'Cold') return 'cold';
+    if (w.swept) return 'home';
+    if (w.type === 'Daily') return 'active';
+    const idleFor = now() - w.lastSeen;
+    return idleFor * 2 >= w.idle ? 'warn' : 'active';
+  }
+
+  function renderWallets() {
+    $('wallet-list').innerHTML = wallets.map((w, i) => {
+      const s = state(w), idleFor = now() - w.lastSeen;
+      const head = `<div class="row"><div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="addr mono">${esc(w.addr)}</span><span class="tag">${esc(w.type)}</span></div>
+          <div class="meta">${esc(w.chain)} · ${s === 'home' ? w.swept + ' HMT brought home' : s === 'cold' ? 'never swept' : 'last active ' + ago(idleFor)}${w.bal ? ' · holds ' + w.bal + ' HMT' : ''}</div></div>`;
+      if (s === 'warn') {
+        const left = w.idle - idleFor, pct = Math.min(100, idleFor / w.idle * 100);
+        return `<article class="card warn">${head}
+          <div style="text-align:right"><span class="status s-warn"><span class="dot"></span>Going quiet</span><div class="count" style="margin-top:8px">${fmt(left)}</div></div></div>
+          <div class="bar"><div style="width:${pct}%"></div></div>
+          <div class="row"><span class="meta">Any outgoing transfer resets the timer.</span><button class="pill pill-line" type="button" data-still="${i}">I'm still using it</button></div></article>`;
+      }
+      const badge = { active: '<span class="status s-active"><span class="dot"></span>Active</span>', home: '<span class="status s-home">✓ Home</span>', cold: '<span class="status s-cold">Protected</span>' }[s];
+      return `<article class="card">${head}${badge}</div></article>`;
+    }).join('');
+
+    const counts = { active: 0, warn: 0 };
+    wallets.forEach(w => { const s = state(w); if (s in counts) counts[s]++; });
+    $('st-total').textContent = wallets.length;
+    $('st-active').textContent = counts.active;
+    $('st-warn').textContent = counts.warn;
+    $('st-home').textContent = homeTotal;
+  }
+
+  function renderLog() {
+    $('log').innerHTML = log.map(e => `<tr><td class="mono" style="color:var(--ink-3)">${esc(e.t)}</td>
+      <td><span class="ev" style="color:${e.color}">${esc(e.ev)}</span> ${esc(e.text)}</td>
+      <td class="meta">${esc(e.where)}</td>
+      <td class="mono"><a href="${e.href || '#activity'}" ${e.href ? 'target="_blank" rel="noopener"' : ''}>${esc(e.tx)}</a></td></tr>`).join('');
+  }
+
+  const fakeTx = () => '0x' + Math.random().toString(16).slice(2, 6) + '…' + Math.random().toString(16).slice(2, 6);
+
+  function tick() {
+    wallets.forEach(w => {
+      if (w.type === 'Sweepable' && !w.swept && now() - w.lastSeen >= w.idle) {
+        w.swept = w.bal || 0; homeTotal += w.swept;
+        log.unshift({ t: clock(), ev: 'Sweep requested', color: 'var(--orange)', text: 'for ' + w.addr, where: 'Lasna · react()', tx: fakeTx() });
+        log.unshift({ t: clock(), ev: 'Brought home', color: 'var(--blue)', text: w.swept + ' HMT from ' + w.addr + ' to your main wallet', where: 'Sepolia · vault callback', tx: fakeTx() });
+        w.bal = 0; renderLog(); toast(w.addr + ' is home.');
+      }
+    });
+    renderWallets();
+  }
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-still]');
+    if (b) {
+      const w = wallets[+b.dataset.still];
+      w.lastSeen = now();
+      log.unshift({ t: clock(), ev: 'Activity', color: 'var(--green)', text: w.addr + ' sent a transfer — timer reset', where: w.chain + ' → Lasna', tx: fakeTx() });
+      renderLog(); renderWallets(); toast('Timer reset. Welcome back.');
+    }
+  });
+
+  document.querySelectorAll('#f-type button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#f-type button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+    b.setAttribute('aria-pressed', 'true');
+  }));
+
+  $('register').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const raw = $('f-addr').value.trim();
+    if (!/^0x[0-9a-fA-F]{40}$/.test(raw)) { toast('Please enter a full 0x… address (42 characters).'); return; }
+    const short = raw.slice(0, 6) + '…' + raw.slice(-4);
+    const type = document.querySelector('#f-type [aria-pressed="true"]').dataset.v;
+    wallets.push({ addr: short, chain: $('f-chain').value, type, idle: +$('f-idle').value, lastSeen: now(), bal: type === 'Sweepable' ? 25 : 0 });
+    log.unshift({ t: clock(), ev: 'Registered', color: 'var(--ink)', text: short + ' as ' + type.toLowerCase(), where: 'Sepolia · registry', tx: fakeTx() });
+    $('f-addr').value = '';
+    renderLog(); renderWallets(); toast('Registered. Homing is watching ' + short + '.');
+  });
+
+  $('connect').addEventListener('click', () => {
+    $('connect').textContent = '● 0xA11C…E09F';
+    toast('Demo: connected. Real wallet connection goes here (wagmi / viem).');
+  });
+
+  renderLog(); renderWallets();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
