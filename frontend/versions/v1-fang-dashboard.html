@@ -1,0 +1,958 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homing — digital assets should never be forgotten</title>
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAWfmNhQlgAABZ+anVtYgAAAB5qdW1kYzJwYQARABCAAACqADibcQNjMnBhAAAAFlhqdW1iAAAAR2p1bWRjMm1hABEAEIAAAKoAOJtxA3VybjpjMnBhOjRkN2VkZTkzLWZjZGQtNDE5Mi1hNWNmLTA0MzU3ZGZhYzBiNAAAAAOTanVtYgAAAClqdW1kYzJhcwARABCAAACqADibcQNjMnBhLmFzc2VydGlvbnMAAAAAuGp1bWIAAABEanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5pbmdyZWRpZW50LnYzAAAAABhjMnNoYyN5cGUe8VLXHAYjTjm3KAAAAGxjYm9yo2lkYzpmb3JtYXRpaW1hZ2UvcG5namluc3RhbmNlSUR4LHhtcDppaWQ6MzI0M2UyZWEtZmU5Yy00MzEzLTkyMmEtMzNjMDE1ODA3NjU1bHJlbGF0aW9uc2hpcGhwYXJlbnRPZgAAAeJqdW1iAAAAQWp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuYWN0aW9ucy52MgAAAAAYYzJzaGgsg1nRkp4PZohvpIBlNMsAAAGZY2JvcqJnYWN0aW9uc4KiZmFjdGlvbmtjMnBhLm9wZW5lZGpwYXJhbWV0ZXJzoWtpbmdyZWRpZW50c4GiY3VybHgtc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5pbmdyZWRpZW50LnYzZGhhc2hYINkMGILB2OpXFpcfIv1gMwBYVLTGuFk8KZrmS8+fTGYipGZhY3Rpb254HWNvbS5hbnRocm9waWMuY2xhdWRlLnByb3ZpZGVkanBhcmFtZXRlcnOheB9jb20uYW50aHJvcGljLm9yaWdpbi1jb25maWRlbmNlZ3Vua25vd25rZGVzY3JpcHRpb254ZkNsYXVkZSBwcm92aWRlZCB0aGlzIGZpbGUgYXQgdGhlIHJlcXVlc3Qgb2YgYSB1c2VyIGFuZCBtYXkgaGF2ZSBjcmVhdGVkIG9yIG1vZGlmaWVkIHRoZSBmaWxlIGNvbnRlbnRzLm1zb2Z0d2FyZUFnZW50oWRuYW1lZkNsYXVkZXJhbGxBY3Rpb25zSW5jbHVkZWT1AAAAyGp1bWIAAABAanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5oYXNoLmRhdGEAAAAAGGMyc2hRi7OA6Y8GUut0h3X0qWZBAAAAgGNib3KlY2FsZ2ZzaGEyNTZjcGFkTQAAAAAAAAAAAAAAAABkaGFzaFggJCP+bQ6yH+aoB+f3YDvIcbHCsUkbgmkhykjOKs8OeFZkbmFtZW5qdW1iZiBtYW5pZmVzdGpleGNsdXNpb25zgaJlc3RhcnQYIWZsZW5ndGgZFooAAAI+anVtYgAAACdqdW1kYzJjbAARABCAAACqADibcQNjMnBhLmNsYWltLnYyAAAAAg9jYm9ypWNhbGdmc2hhMjU2aXNpZ25hdHVyZXhNc2VsZiNqdW1iZj0vYzJwYS91cm46YzJwYTo0ZDdlZGU5My1mY2RkLTQxOTItYTVjZi0wNDM1N2RmYWMwYjQvYzJwYS5zaWduYXR1cmVqaW5zdGFuY2VJRHgseG1wOmlpZDo4ODcwYzFiZi01YTY2LTQ3MWItYTgxMC0yY2EwZTFmN2ZjNjdyY3JlYXRlZF9hc3NlcnRpb25zg6JjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFgg2QwYgsHY6lcWlx8i/WAzAFhUtMa4WTwpmuZLz59MZiKiY3VybHgqc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5hY3Rpb25zLnYyZGhhc2hYIHSZgXl9Qw2qJWKlxvXSruysa27cEoA+kTu9R2o4q96comN1cmx4KXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaGFzaC5kYXRhZGhhc2hYIMSeGbDlDVkijMw7X/krL6ryAa7jYsQVpFGrRv8zBCPkdGNsYWltX2dlbmVyYXRvcl9pbmZvo2RuYW1lb0FudGhyb3BpYyBGaWxlc2d2ZXJzaW9uZTEuMC4wa3NwZWNWZXJzaW9uZTIuNC4wAAAQOGp1bWIAAAAoanVtZGMyY3MAEQAQgAAAqgA4m3EDYzJwYS5zaWduYXR1cmUAAAAQCGNib3LShFkCEqIBJhghWQIKMIICBjCCAY2gAwIBAgIUQOWgCu7COdC+uIP6BkIFPWdVEwAwCgYIKoZIzj0EAwMwSTEXMBUGA1UEChMOQW50aHJvcGljLCBQQkMxLjAsBgNVBAMTJUFudGhyb3BpYyBDb250ZW50IENyZWRlbnRpYWxzIFJvb3QgQ0EwHhcNMjYwODA3MTg0MzU2WhcNMjgwODA2MTk0MzU2WjBEMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEpMCcGA1UEAxMgQW50aHJvcGljIENsYXVkZSBDb250ZW50IFNpZ25pbmcwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASYegpry1AYBRTVNL1CpTlbROnY3dey+UrsF9C3phYrATN3ZHf93Mo8RQN0KOUuOn19P4oWNFWe5n2/She9N7eTo1gwVjAOBgNVHQ8BAf8EBAMCB4AwFQYDVR0lBA4wDAYKKwYBBAGD6F4CATAMBgNVHRMBAf8EAjAAMB8GA1UdIwQYMBaAFM5R4gSBTmRbI/jjxM+aPpzB11zCMAoGCCqGSM49BAMDA2cAMGQCMDFzHRSeAXrSy1WOzkbhPZ6Km2wGTmZ/2gK18k8BQGXyqz88Rdrz6CTX9flAnYNVxgIwcF9c3fVhqmJKpi+UhasNUMko69cyX6STPfta3Q8EjyzDjzoyrol46FP6VFHhvUcJoWNwYWRZDZ4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD2WEDBq/jnk92ntSbuNkpI+yhNVgrfdAfUESwV+HIv0H12Blhy8QadA9NwI0EZQkPd3qjIe0DX1AdfN6kUw/Wu9bcKrrL7XAAAAAZiS0dEAP8A/wD/oL2nkwAAA2pJREFUWIXtl11om1UYx3/P++bLZE1C2jfpNEnZLLhRZdkctVi88KK4G72r2IkgIl7MIVK80atdiN4MQdzNdPgxkU4mXihCYaB3Imt1c11hTFibZBtN0mrjtiRNet7jRdrYQlry4dIb/1eH8/X/n/95zsN5hM0wotG+F0CPAY8DYcCkPSggK8I06Il0Ov01YK8PynojHo/vtW2+AQ62SbgtRPhNhNFUKnWjJqBKLr+Atu4n+QZkTVOGksnknAEY1ZN3jBwgrJQ+DxgSjfYdBf1VB8lrENFjBuijO0EOYNsyZqxFe0sYDJYYDJZaFiDCYQfQ9N0LcHxPntf68gB8nAxwai6Abl5DRKLReFPrPKbm/X1LjFiFTf0Xcl7evtZNScmWa+vBaGZyxK04m8gwYhXQwOlkgNPJ6slHrAJnExkibtWUgIYd2N9V5qNHc/S6FWVbOHE9xHcLPgCOhAu8+8gSHlOTK5u8MWMxc8fVkICGHHgmXODLRIZetyJXNnn5cqRGDjCZ9fLS5QgLKyaWS/HFwQzP9d5rSMC2DgjwSvxv3ty7jADX7zo5ftXidslBt8vm+8HbADx78UGWygaWS3HqsRwDXWU08GnKz4dzQextPDb9/sCJegNO0ZwcWOLF6B1kLchevxrmr4pJ0GnzWSLDbo/CbWieChWZzPn4s2LyQ9bHHu8qD/sqHAqs0O+r8OPiA9jUD84tr2A4VNoUbOOzPRSVEHTanDmQpd9Xqc3t91U4cyBL0GlTVML4bM+m4BwObZ0rtnQgU3bgMTWfp/2cu9UFgN9h80kiy/5dZVaU4FiTX7SF3W7FcKjEhZyXoi1cXPbwxz0n2bLJtwu7WNX1HWgqD5wcWOSIVaCkhHeudfPBwCIA47M9vLev+gomc17emu1pdMvm8sCVvJt00cGxGYtLeXet/1LezbEZi3TRwZUN/Y2g6Uy4Dsul+OnJWwA8/fND5MqtfZyacuB+4H8BjlYXFpWwqv9td1zAXWXw6u+RWrsdAarVv//0cnNPrg6UAWTb3aUNLBjVimWnIFMG6Ikdoxf7nABGLBaf0ppDHeafvnkz9YQB2CKMdjgWsg6HMQrYBkAqlbphmjIE/NoB8mnTlKH5+fl5NlbHazBisdjzti1jIhwGIv9ReZ4BpkT0RDqdPr+xPP8H6kI6FjPTTloAAAAASUVORK5CYII=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Myriad Pro is Adobe-licensed; Source Sans 3 (Adobe, same design lineage) is the web fallback. -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font:"Myriad Pro","Myriad","Source Sans 3","Source Sans Pro","Segoe UI",system-ui,sans-serif;
+    --mono:"Source Code Pro",ui-monospace,Consolas,monospace;
+    --bg:#F4F2ED; --surface:#FFFFFF; --surface-2:#FAF8F4; --line:#E5E0D5; --line-2:#EFEBE3;
+    --ink:#1C1C1E; --ink-2:#4A4740; --ink-3:#7A7466;
+    --side:#1C1C1E; --side-2:#26262A; --side-line:rgba(248,243,231,.10); --cream:#F8F3E7;
+    --orange:#F05C00; --orange-ink:#B44400; --orange-soft:#FDEEE3; --orange-line:#F6C8A6;
+    --green:#1E7A4F; --green-soft:#E3F1E8;
+    --blue:#2F4FA8; --blue-soft:#E4E9F6;
+    --gray-soft:#EEEBE4;
+    --radius:14px; --shadow:0 1px 2px rgba(28,28,30,.04),0 4px 16px rgba(28,28,30,.04);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:84px}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+  em,i{font-style:normal}
+  a{color:inherit}
+  button,input,select{font:inherit;color:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+  .mono{font-family:var(--mono);font-size:.9em;letter-spacing:-.01em}
+  .muted{color:var(--ink-3)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+  /* ---------- shell ---------- */
+  .shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+  aside.side{position:sticky;top:0;height:100vh;background:var(--side);color:var(--cream);display:flex;flex-direction:column;padding:22px 16px 18px;gap:22px;overflow-y:auto}
+  .brand{display:flex;align-items:center;padding:0 8px;color:var(--cream);text-decoration:none}
+  .brand svg{height:30px;width:auto;display:block}
+  .edition{display:grid;grid-template-columns:1fr 1fr;background:var(--side-2);border-radius:10px;padding:3px;gap:3px}
+  .edition button{border:0;background:transparent;color:rgba(248,243,231,.65);border-radius:8px;min-height:34px;font-size:13px;font-weight:600}
+  .edition button[aria-pressed="true"]{background:var(--cream);color:var(--ink)}
+  .nav{display:flex;flex-direction:column;gap:2px}
+  .nav .grp{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:rgba(248,243,231,.4);padding:14px 10px 6px}
+  .nav a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;text-decoration:none;color:rgba(248,243,231,.75);font-size:14.5px;font-weight:500}
+  .nav a svg{width:18px;height:18px;flex:none;opacity:.8}
+  .nav a:hover{background:rgba(248,243,231,.06);color:var(--cream)}
+  .nav a.on{background:rgba(240,92,0,.14);color:var(--cream)}
+  .nav a.on svg{color:var(--orange);opacity:1}
+  .nav .count{margin-left:auto;background:var(--orange);color:#fff;font-size:11.5px;font-weight:700;border-radius:999px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 6px}
+  .nav .count:empty,.nav .count[data-n="0"]{display:none}
+  .netbox{margin-top:auto;border:1px solid var(--side-line);border-radius:12px;padding:12px 12px;font-size:12.5px;color:rgba(248,243,231,.7);display:flex;flex-direction:column;gap:7px}
+  .netbox b{color:var(--cream);font-weight:600}
+  .live{display:inline-block;width:7px;height:7px;border-radius:50%;background:#3BC37A;box-shadow:0 0 0 3px rgba(59,195,122,.18);margin-right:6px;vertical-align:1px}
+
+  main{min-width:0}
+  .topbar{position:sticky;top:0;z-index:15;background:rgba(244,242,237,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar .in{display:flex;align-items:center;gap:12px;min-height:64px;padding:0 32px;max-width:1320px}
+  .crumb{font-size:13px;color:var(--ink-3)}
+  .crumb b{color:var(--ink);font-weight:600;font-size:16px;margin-right:10px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--gray-soft);color:var(--ink-2)}
+  .search{margin-left:auto;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0 12px;min-height:40px;width:280px;color:var(--ink-3)}
+  .search input{border:0;outline:0;background:transparent;flex:1;min-width:0;font-size:14px;color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:10px;border:1px solid transparent;font-weight:600;font-size:14px;white-space:nowrap;text-decoration:none;transition:background .15s,border-color .15s,color .15s}
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:var(--ink);color:var(--cream)}
+  .btn-primary:hover{background:#000}
+  .btn-accent{background:var(--orange);color:#fff}
+  .btn-accent:hover{background:#D95300}
+  .btn-line{background:var(--surface);border-color:var(--line);color:var(--ink)}
+  .btn-line:hover{border-color:var(--ink-3)}
+  .btn-ghost{background:transparent;color:var(--ink-2);padding:0 10px}
+  .btn-ghost:hover{background:var(--gray-soft);color:var(--ink)}
+  .btn-sm{min-height:32px;padding:0 12px;font-size:13px;border-radius:8px}
+
+  .page{padding:28px 32px 80px;max-width:1320px;display:flex;flex-direction:column;gap:28px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+  .sec-head h2{margin:0;font-size:19px;font-weight:600;letter-spacing:-.005em}
+  .sec-head p{margin:2px 0 0;color:var(--ink-3);font-size:13.5px}
+
+  /* ---------- intro ---------- */
+  .intro{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);overflow:hidden}
+  .intro-l{padding:30px 32px 28px;display:flex;flex-direction:column;gap:16px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--orange-ink)}
+  .eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange)}
+  .intro h1{margin:0;font-size:clamp(26px,2.6vw,34px);line-height:1.12;font-weight:600;letter-spacing:-.015em;max-width:560px}
+  .intro .lede{margin:0;font-size:16px;color:var(--ink-2);max-width:520px;white-space:pre-line}
+  .trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:6px;padding-top:18px;border-top:1px solid var(--line-2)}
+  .trust div{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--ink-3)}
+  .trust b{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--ink);font-weight:600}
+  .trust svg{width:16px;height:16px;color:var(--green);flex:none}
+  .intro-r{background:var(--surface-2);border-left:1px solid var(--line);padding:26px 28px;display:flex;flex-direction:column;gap:16px}
+  .h-label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .verdict{display:flex;gap:12px;align-items:flex-start}
+  .verdict .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;flex:none}
+  .verdict .ic svg{width:20px;height:20px}
+  .verdict b{display:block;font-size:16.5px;font-weight:600;line-height:1.3}
+  .verdict span{font-size:13.5px;color:var(--ink-3)}
+  .stack{display:flex;height:10px;border-radius:999px;overflow:hidden;background:var(--gray-soft);gap:2px}
+  .stack i{display:block;height:100%;transition:flex-grow .4s ease}
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;font-size:13px;color:var(--ink-2)}
+  .legend div{display:flex;align-items:center;gap:8px}
+  .legend i{width:9px;height:9px;border-radius:3px;flex:none}
+  .legend b{margin-left:auto;font-weight:600;color:var(--ink)}
+  .next{font-size:13.5px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:14px;margin-top:auto}
+  .next b{color:var(--ink);font-weight:600}
+
+  /* ---------- KPI strip (deliberately compact) ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .kpi{padding:16px 20px;display:flex;align-items:center;gap:14px;border-left:1px solid var(--line-2)}
+  .kpi:first-child{border-left:0}
+  .kpi .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--gray-soft);color:var(--ink-2)}
+  .kpi .ic svg{width:18px;height:18px}
+  .kpi .v{font-size:20px;font-weight:600;line-height:1.15}
+  .kpi .v small{font-size:13px;font-weight:500;color:var(--ink-3);margin-left:3px}
+  .kpi .l{font-size:12.5px;color:var(--ink-3)}
+
+  /* ---------- decision center ---------- */
+  .decide{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);gap:20px;align-items:start}
+  .dlist{display:flex;flex-direction:column;gap:14px}
+  .dcard{padding:20px 22px;display:flex;flex-direction:column;gap:16px;border-left:3px solid var(--orange)}
+  .dcard.grace{border-left-color:var(--orange-ink)}
+  .dtop{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}
+  .wname{font-weight:600;font-size:16px}
+  .wsub{font-size:13px;color:var(--ink-3);display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:2px}
+  .sep{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.6}
+  .eta{text-align:right}
+  .eta .t{font-size:22px;font-weight:600;color:var(--orange-ink);line-height:1.1}
+  .eta .s{font-size:12px;color:var(--ink-3)}
+  .track{position:relative;padding-top:4px}
+  .rail{height:8px;border-radius:999px;background:var(--gray-soft);position:relative;overflow:hidden}
+  .rail .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#F7A46B,var(--orange));border-radius:999px;transition:width 1s linear}
+  .marks{display:grid;position:relative;font-size:11.5px;color:var(--ink-3);margin-top:7px}
+  .marks span{position:relative;padding-left:9px}
+  .marks span::before{content:"";position:absolute;left:0;top:-13px;width:1.5px;height:12px;background:var(--line)}
+  .marks span.done{color:var(--ink-2);font-weight:600}
+  .reco{display:flex;gap:12px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink-2)}
+  .reco svg{width:18px;height:18px;flex:none;color:var(--orange-ink);margin-top:2px}
+  .reco b{color:var(--ink);font-weight:600}
+  .acts{display:flex;gap:8px;flex-wrap:wrap}
+  .empty{padding:28px 24px;display:flex;gap:14px;align-items:center;color:var(--ink-2)}
+  .empty .ic{width:40px;height:40px;border-radius:12px;background:var(--green-soft);color:var(--green);display:grid;place-items:center;flex:none}
+
+  .policy{padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+  .policy h3{margin:0;font-size:16px;font-weight:600}
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+  .steps li{display:grid;grid-template-columns:28px 1fr auto;gap:12px;position:relative;padding-bottom:16px}
+  .steps li:last-child{padding-bottom:0}
+  .steps li::before{content:"";position:absolute;left:13.5px;top:28px;bottom:2px;width:1.5px;background:var(--line)}
+  .steps li:last-child::before{display:none}
+  .steps .n{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12.5px;font-weight:600;color:var(--ink-3);background:var(--surface)}
+  .steps li.hot .n{border-color:var(--orange);color:var(--orange-ink);background:var(--orange-soft)}
+  .steps b{display:block;font-size:14.5px;font-weight:600;line-height:1.3;margin-top:3px}
+  .steps span{font-size:13px;color:var(--ink-3)}
+  .steps .val{font-size:13px;font-weight:600;color:var(--ink);background:var(--gray-soft);border-radius:6px;padding:2px 8px;align-self:start;margin-top:3px;white-space:nowrap}
+  .ctrl{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:12px}
+  .field{display:flex;flex-direction:column;gap:6px}
+  .field>span{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+  .field small{font-size:12.5px;color:var(--ink-3)}
+  .inp{min-height:40px;border:1px solid var(--line);border-radius:9px;background:var(--surface);padding:0 12px;font-size:14px;width:100%}
+  .inp:focus{outline:2px solid var(--orange);outline-offset:-1px;border-color:transparent}
+  .inline{display:flex;gap:8px}
+  .inline .inp{flex:1;min-width:0}
+  .pending{display:flex;gap:10px;align-items:center;background:var(--blue-soft);color:var(--blue);border-radius:10px;padding:10px 12px;font-size:13.5px}
+  .pending b{font-weight:600}
+  .pending .btn{margin-left:auto}
+  .switch{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px}
+  .switch input{appearance:none;width:38px;height:22px;border-radius:999px;background:var(--line);position:relative;cursor:pointer;flex:none;transition:background .15s}
+  .switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .switch input:checked{background:var(--green)}
+  .switch input:checked::after{transform:translateX(16px)}
+  .readiness{display:flex;flex-direction:column;gap:8px;font-size:13.5px}
+  .readiness div{display:flex;justify-content:space-between;gap:10px}
+  .readiness span{color:var(--ink-3)}
+  .readiness b{font-weight:600}
+
+  /* ---------- wallets table ---------- */
+  .tbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .filt{border:1px solid var(--line);background:var(--surface);border-radius:999px;min-height:30px;padding:0 12px;font-size:13px;font-weight:600;color:var(--ink-2)}
+  .filt[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--cream)}
+  .filt .c{opacity:.6;margin-left:4px;font-weight:500}
+  .tscroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:860px}
+  th{text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);padding:11px 14px;background:var(--surface-2);border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:13px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:0}
+  tbody tr:hover td{background:#FCFBF8}
+  th.r,td.r{text-align:right}
+  .wcell{display:flex;align-items:center;gap:12px}
+  .avatar{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--gray-soft);color:var(--ink-2)}
+  .avatar svg{width:17px;height:17px}
+  .wcell b{display:block;font-weight:600}
+  .wcell .mono{color:var(--ink-3);font-size:12.5px}
+  .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:6px;background:var(--gray-soft);color:var(--ink-2)}
+  .st{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+  .st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .st-active{background:var(--green-soft);color:var(--green)}
+  .st-reminder{background:var(--orange-soft);color:var(--orange-ink)}
+  .st-grace{background:#FBDCC6;color:#8F3500}
+  .st-home{background:var(--blue-soft);color:var(--blue)}
+  .st-cold{background:var(--gray-soft);color:var(--ink-2)}
+  .st-sched{background:var(--blue-soft);color:var(--blue)}
+  .rowacts{display:flex;gap:4px;justify-content:flex-end}
+  .iconbtn{width:32px;height:32px;border-radius:8px;border:1px solid transparent;background:transparent;display:grid;place-items:center;color:var(--ink-3)}
+  .iconbtn:hover{background:var(--gray-soft);color:var(--ink);border-color:var(--line)}
+  .iconbtn svg{width:16px;height:16px}
+  .iconbtn:disabled{opacity:.3;pointer-events:none}
+
+  /* ---------- activity ---------- */
+  .ev{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+  .ev i{width:8px;height:8px;border-radius:50%;flex:none}
+  td a.tx{color:var(--orange-ink);text-decoration:none;font-weight:500}
+  td a.tx:hover{text-decoration:underline}
+
+  /* ---------- architecture ---------- */
+  .arch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+  .node{padding:20px 22px;border-left:1px solid var(--line-2);display:flex;flex-direction:column;gap:10px;position:relative}
+  .node:first-child{border-left:0}
+  .node .where{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+  .node h4{margin:0;font-size:16px;font-weight:600}
+  .node p{margin:0;font-size:13.5px;color:var(--ink-2)}
+  .sig{font-family:var(--mono);font-size:12px;line-height:1.55;background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:9px 11px;color:var(--ink-2);word-break:break-word}
+  .sig b{color:var(--ink);font-weight:500}
+  .node a.addr{font-family:var(--mono);font-size:12px;color:var(--orange-ink);text-decoration:none}
+  .node a.addr:hover{text-decoration:underline}
+  .arrow{position:absolute;left:-12px;top:22px;width:24px;height:24px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink-3);z-index:1}
+  .arrow svg{width:13px;height:13px}
+  .archfoot{display:flex;gap:18px;flex-wrap:wrap;align-items:center;padding:14px 22px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+  .archfoot a{color:var(--ink);font-weight:600;text-decoration:none}
+  .archfoot a:hover{text-decoration:underline}
+
+  footer{padding:8px 32px 40px;max-width:1320px;font-size:13px;color:var(--ink-3);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  /* ---------- drawer ---------- */
+  .scrim{position:fixed;inset:0;background:rgba(28,28,30,.35);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+  .scrim.show{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:var(--surface);z-index:41;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(28,28,30,.12)}
+  .drawer.show{transform:none}
+  .dhead{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--line)}
+  .dhead h3{margin:0;font-size:18px;font-weight:600}
+  .dbody{padding:22px 24px;display:flex;flex-direction:column;gap:18px;overflow-y:auto;flex:1}
+  .seg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .seg button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 10px;text-align:left;display:flex;flex-direction:column;gap:2px}
+  .seg button b{font-size:14px;font-weight:600}
+  .seg button span{font-size:12px;color:var(--ink-3);line-height:1.35}
+  .seg button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:var(--surface-2)}
+  .chains{display:flex;gap:8px;flex-wrap:wrap}
+  .summary{background:var(--surface-2);border:1px solid var(--line-2);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--ink-2);display:flex;flex-direction:column;gap:8px}
+  .summary b{color:var(--ink);font-weight:600}
+  .sign{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--ink-2)}
+  .sign li{display:flex;gap:10px;align-items:flex-start}
+  .sign .n{width:20px;height:20px;border-radius:50%;background:var(--gray-soft);font-size:11.5px;font-weight:600;display:grid;place-items:center;flex:none;margin-top:1px}
+  .dfoot{padding:16px 24px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:flex-end}
+  .err{color:#B42318;font-size:12.5px;min-height:0}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:var(--cream);padding:12px 18px;border-radius:10px;font-weight:500;font-size:14px;transition:transform .3s ease;z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.2);max-width:calc(100% - 32px)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  [data-only="family"]{display:none}
+  body.family [data-only="family"]{display:revert}
+  body.family [data-only="enterprise"]{display:none}
+
+  @media (max-width:1100px){
+    .decide{grid-template-columns:1fr}
+    .intro{grid-template-columns:1fr}
+    .intro-r{border-left:0;border-top:1px solid var(--line)}
+  }
+  @media (max-width:860px){
+    .shell{grid-template-columns:1fr}
+    aside.side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:14px 16px;gap:12px}
+    .edition{margin-left:auto;width:220px}
+    .nav{flex-direction:row;overflow-x:auto;width:100%;gap:4px}
+    .nav .grp,.netbox{display:none}
+    .nav a{white-space:nowrap}
+    .topbar .in,.page{padding-left:18px;padding-right:18px}
+    .search,.crumb .chip,#connect span{display:none}
+    .topbar .in{gap:8px}
+    #connect{margin-left:auto;padding:0 11px}
+    .kpis{grid-template-columns:1fr 1fr}
+    .kpi:nth-child(3){border-left:0}
+    .kpi:nth-child(n+3){border-top:1px solid var(--line-2)}
+    .trust{grid-template-columns:1fr}
+    .arch{grid-template-columns:1fr}
+    .node{border-left:0;border-top:1px solid var(--line-2)}
+    .node:first-child{border-top:0}
+    .arrow{display:none}
+    .seg{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></symbol>
+    <symbol id="i-wallet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><path d="M16 14h.01"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-chain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M12 20V10"/><path d="m8 14 4-4 4 4"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-snow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M4.9 4.9l14.2 14.2M2 12h20M4.9 19.1 19.1 4.9"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M1 21v-1a6 6 0 0 1 12 0v1"/><path d="M16 4a4 4 0 0 1 0 8M23 21v-1a6 6 0 0 0-4-5.7"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  </defs>
+</svg>
+
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="#overview" aria-label="Homing">
+      <svg viewBox="0 0 236 64" role="img" aria-label="Homing"><g transform="scale(2.6666666666666665)" fill="none" stroke="#F05C00" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M12 20V10"/><path d="m8 14 4-4 4 4"/></g><path d="M75.98046875 55.0V10.3125H84.8671875V26.283203125H89.08203125V10.3125H97.96875V55.0H89.08203125V34.73828125H84.8671875V55.0Z M113.79375 55.40625Q108.436328125 55.40625 105.6052734375 52.1689453125Q102.77421875 48.931640625 102.77421875 42.8125V21.5859375Q102.77421875 15.84765625 105.5798828125 12.876953125Q108.385546875 9.90625 113.79375 9.90625Q119.201953125 9.90625 122.0076171875 12.876953125Q124.81328125 15.84765625 124.81328125 21.5859375V42.8125Q124.81328125 48.931640625 121.9822265625 52.1689453125Q119.151171875 55.40625 113.79375 55.40625ZM113.869921875 47.1796875Q115.901171875 47.1796875 115.901171875 43.244140625V21.43359375Q115.901171875 18.1328125 113.920703125 18.1328125Q111.686328125 18.1328125 111.686328125 21.509765625V43.294921875Q111.686328125 45.376953125 112.194140625 46.2783203125Q112.701953125 47.1796875 113.869921875 47.1796875Z M129.61875 55.0V10.3125H143.228125L146.9859375 37.556640625L150.718359375 10.3125H164.4546875V55.0H156.27890625V22.8046875L151.15 55.0H143.1265625L137.69296875 22.8046875V55.0Z M169.20937500000002 55.0V10.3125H177.84218750000002V55.0Z M182.596875 55.0V10.3125H191.78828125L195.9015625 31.716796875V10.3125H204.534375V55.0H195.8L191.33125 32.65625V55.0Z M218.912109375 55.40625Q209.33984375 55.40625 209.33984375 41.6953125V22.423828125Q209.33984375 9.90625 220.30859375 9.90625Q224.828125 9.90625 227.240234375 11.7216796875Q229.65234375 13.537109375 230.56640625 17.015625Q231.48046875 20.494140625 231.48046875 25.49609375H222.74609375V21.53515625Q222.74609375 20.087890625 222.3525390625 19.1103515625Q221.958984375 18.1328125 220.71484375 18.1328125Q219.166015625 18.1328125 218.6708984375 19.173828125Q218.17578125 20.21484375 218.17578125 21.458984375V43.1171875Q218.17578125 44.919921875 218.6455078125 46.0498046875Q219.115234375 47.1796875 220.486328125 47.1796875Q221.908203125 47.1796875 222.3779296875 46.0498046875Q222.84765625 44.919921875 222.84765625 43.06640625V36.693359375H220.4609375V28.974609375H231.37890625V55.0H227.798828125L226.275390625 51.2421875Q223.939453125 55.40625 218.912109375 55.40625Z" fill="currentColor"/></svg>
+    </a>
+
+    <div class="edition" role="group" aria-label="Edition">
+      <button type="button" data-ed="enterprise" aria-pressed="true">Enterprise</button>
+      <button type="button" data-ed="family" aria-pressed="false">Family Office</button>
+    </div>
+
+    <nav class="nav" aria-label="Sections">
+      <div class="grp">Monitor</div>
+      <a href="#overview" class="on"><svg><use href="#i-grid"/></svg>Overview</a>
+      <a href="#decisions"><svg><use href="#i-flag"/></svg>Decisions<span class="count" id="nav-count"></span></a>
+      <a href="#wallets"><svg><use href="#i-wallet"/></svg>Wallets</a>
+      <div class="grp">Control</div>
+      <a href="#decisions"><svg><use href="#i-sliders"/></svg>Policies</a>
+      <a href="#activity"><svg><use href="#i-list"/></svg>Audit trail</a>
+      <a href="#contracts"><svg><use href="#i-chain"/></svg>Contracts</a>
+    </nav>
+
+    <div class="netbox">
+      <div><span class="live"></span><b>Reactive Lasna</b> · watching</div>
+      <div>Ethereum Sepolia · Base Sepolia</div>
+      <div>Testnet only · demo data</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="in">
+        <div class="crumb"><b id="crumb-title">Overview</b><span class="chip" id="crumb-ed">Enterprise</span></div>
+        <label class="search"><svg width="16" height="16"><use href="#i-search"/></svg><span class="sr">Search wallets</span><input id="q" placeholder="Search wallet, label or address"></label>
+        <button class="btn btn-line" id="connect" type="button"><svg><use href="#i-wallet"/></svg><span>Connect wallet</span></button>
+        <button class="btn btn-primary" type="button" data-open-drawer><svg><use href="#i-plus"/></svg>Register wallet</button>
+      </div>
+    </div>
+
+    <div class="page">
+
+      <!-- ===== Overview ===== -->
+      <section id="overview" class="card intro" aria-labelledby="h1">
+        <div class="intro-l">
+          <span class="eyebrow" id="ed-eyebrow">Homing for Enterprise</span>
+          <h1 id="h1">Digital assets should never be forgotten.</h1>
+          <p class="lede" id="lede">Automatically monitor, protect, and recover inactive wallets across chains.</p>
+          <div class="trust">
+            <div><b><svg><use href="#i-lock"/></svg>Non-custodial</b>Tokens stay in your wallets. The vault holds only revocable allowances.</div>
+            <div><b><svg><use href="#i-shield"/></svg>Two independent checks</b>Reactive asks to move; the vault re-checks its own rules before acting.</div>
+            <div><b><svg><use href="#i-clock"/></svg>Delayed changes</b><span>New destinations<span data-only="family"> or heirs</span> wait 10 min (demo) before taking effect.</span></div>
+          </div>
+        </div>
+        <div class="intro-r" aria-live="polite">
+          <span class="h-label">Protection status</span>
+          <div class="verdict" id="verdict"></div>
+          <div class="stack" id="stack" aria-hidden="true"></div>
+          <div class="legend" id="legend"></div>
+          <div class="next" id="next"></div>
+        </div>
+      </section>
+
+      <section class="card kpis" aria-label="Key figures">
+        <div class="kpi"><div class="ic"><svg><use href="#i-shield"/></svg></div><div><div class="v" id="k-value">0<small>HMT</small></div><div class="l">Under protection</div></div></div>
+        <div class="kpi"><div class="ic"><svg><use href="#i-eye"/></svg></div><div><div class="v" id="k-wallets">0</div><div class="l">Wallets watched · 2 chains</div></div></div>
+        <div class="kpi"><div class="ic" style="background:var(--orange-soft);color:var(--orange-ink)"><svg><use href="#i-flag"/></svg></div><div><div class="v" id="k-decide">0</div><div class="l">Awaiting your decision</div></div></div>
+        <div class="kpi"><div class="ic" style="background:var(--blue-soft);color:var(--blue)"><svg><use href="#i-home"/></svg></div><div><div class="v" id="k-home">0<small>HMT</small></div><div class="l" id="k-home-l">Returned to Treasury Vault</div></div></div>
+      </section>
+
+      <!-- ===== Decisions + Policy ===== -->
+      <section id="decisions" aria-labelledby="h-dec">
+        <div class="decide">
+          <div>
+            <div class="sec-head">
+              <div><h2 id="h-dec">Needs your decision</h2><p>Wallets that have gone quiet. Nothing moves until the full wait and grace period have passed.</p></div>
+            </div>
+            <div class="dlist" id="dlist"></div>
+          </div>
+
+          <div>
+            <div class="sec-head"><div><h2>Escalation policy</h2><p>The rules the vault enforces. Any outgoing transfer resets the clock.</p></div></div>
+            <div class="card policy">
+              <ol class="steps" id="steps"></ol>
+
+              <div class="ctrl">
+                <label class="field"><span id="dest-label">Return destination</span>
+                  <div class="inline">
+                    <input class="inp mono" id="dest-in" placeholder="0x… new destination" autocomplete="off">
+                    <button class="btn btn-line btn-sm" type="button" id="dest-btn" style="min-height:40px">Request change</button>
+                  </div>
+                  <small>Current: <b id="dest-now" style="color:var(--ink)">Treasury Vault</b></small>
+                </label>
+
+                <label class="field" data-only="family"><span>Designated heir</span>
+                  <div class="inline">
+                    <input class="inp mono" id="heir-in" placeholder="0x… heir address" autocomplete="off">
+                    <button class="btn btn-line btn-sm" type="button" id="heir-btn" style="min-height:40px">Request change</button>
+                  </div>
+                  <small>Current: <b id="heir-now" style="color:var(--ink)">0x7e11…a02c (Mei)</b></small>
+                </label>
+
+                <div id="pending"></div>
+
+                <div data-only="family" class="field">
+                  <label class="switch">Include cold wallets in inheritance<input type="checkbox" id="cold-opt" checked></label>
+                </div>
+                <div data-only="family" class="readiness" id="readiness"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Wallets ===== -->
+      <section id="wallets" aria-labelledby="h-w">
+        <div class="sec-head">
+          <div><h2 id="h-w">Wallets</h2><p>Each wallet signs its own registration. The same address is watched on every listed chain.</p></div>
+          <button class="btn btn-line btn-sm" type="button" data-open-drawer><svg><use href="#i-plus"/></svg>Register wallet</button>
+        </div>
+        <div class="card">
+          <div class="tbar" id="wfilters" role="group" aria-label="Filter wallets"></div>
+          <div class="tscroll">
+            <table>
+              <thead><tr>
+                <th>Wallet</th><th id="th-group">Desk</th><th>Tag</th><th class="r">Balance</th><th>Last activity</th><th>Status</th><th>Next step</th><th class="r"><span class="sr">Actions</span></th>
+              </tr></thead>
+              <tbody id="wbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Activity ===== -->
+      <section id="activity" aria-labelledby="h-a">
+        <div class="sec-head">
+          <div><h2 id="h-a">Audit trail</h2><p>Every step is an on-chain transaction. Open any hash to verify it yourself.</p></div>
+        </div>
+        <div class="card">
+          <div class="tbar" id="afilters" role="group" aria-label="Filter events"></div>
+          <div class="tscroll">
+            <table>
+              <thead><tr><th style="width:80px">Time</th><th>Event</th><th>Detail</th><th>Contract · chain</th><th>Transaction</th></tr></thead>
+              <tbody id="abody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Contracts ===== -->
+      <section id="contracts" aria-labelledby="h-c">
+        <div class="sec-head">
+          <div><h2 id="h-c">How Homing decides</h2><p>Three contracts, four fixed interfaces, two test chains. No server, no keeper bot.</p></div>
+        </div>
+        <div class="card">
+          <div class="arch">
+            <div class="node">
+              <span class="where">1 · Ethereum Sepolia</span>
+              <h4>WalletRegistry</h4>
+              <p>Each wallet signs “I belong to this owner” and gets a tag. Emits an event the Reactive contract subscribes to.</p>
+              <div class="sig"><b>event WalletAdded</b>(<br>&nbsp;address indexed wallet,<br>&nbsp;address indexed owner,<br>&nbsp;uint8 tag)&nbsp;<span class="muted">// 0 primary · 1 cold · 2 sweepable</span></div>
+              <a class="addr" href="https://sepolia.etherscan.io/address/0xEaFFd84aFEF8EE1fCcA7e066d166BD5Dd7B6B7d6" target="_blank" rel="noopener">0xEaFF…B7d6 ↗</a>
+            </div>
+            <div class="node">
+              <span class="arrow"><svg><use href="#i-arrow"/></svg></span>
+              <span class="where">2 · Reactive Lasna</span>
+              <h4>HomingReactive</h4>
+              <p>Listens to transfers of every registered wallet on Sepolia and Base Sepolia, tracks last activity, and asks the vault to act.</p>
+              <div class="sig"><b>onActivity</b>(address rvm, uint256 chainId,<br>&nbsp;uint256 txHash, address wallet,<br>&nbsp;uint256 lastActivity)</div>
+              <div class="sig"><b>onSweep</b>(address rvm, uint256 chainId,<br>&nbsp;uint256 txHash, address wallet)</div>
+              <a class="addr" href="https://lasna.reactscan.net/address/0x80c1346fcc786077BBef753d560594803fBc8fa7" target="_blank" rel="noopener">0x80c1…8fa7 ↗</a>
+            </div>
+            <div class="node">
+              <span class="arrow"><svg><use href="#i-arrow"/></svg></span>
+              <span class="where">3 · Ethereum Sepolia</span>
+              <h4>Vault</h4>
+              <p>Holds only allowances. Re-checks wait + grace with its own data; if it is not time yet it skips, never reverts.</p>
+              <div class="sig"><b>claim</b>(address owner)&nbsp;<span class="muted">// heir, after all wallets are silent</span><br><b>requestConfigChange</b>(target, heir)</div>
+              <a class="addr" href="https://sepolia.etherscan.io/address/0xCCDb1aBC0B06e40Ec0162616491c9Ce74488f6d4" target="_blank" rel="noopener">0xCCDb…f6d4 ↗</a>
+            </div>
+          </div>
+          <div class="archfoot">
+            <span>Chain IDs: Ethereum Sepolia <b class="mono" style="color:var(--ink)">11155111</b> · Base Sepolia <b class="mono" style="color:var(--ink)">84532</b></span>
+            <a href="https://github.com/sgxy975-bit/homing" target="_blank" rel="noopener">Source on GitHub ↗</a>
+            <a href="https://github.com/sgxy975-bit/homing/blob/main/deployments.md" target="_blank" rel="noopener">Deployments ↗</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <span>Homing · Reactive Omni Buildathon 2026 · Track 2</span>
+      <span>Testnet only. Figures on this page are demo data unless linked to a transaction.</span>
+    </footer>
+  </main>
+</div>
+
+<!-- ===== Register drawer ===== -->
+<div class="scrim" id="scrim"></div>
+<form class="drawer" id="drawer" aria-labelledby="dr-h" aria-hidden="true">
+  <div class="dhead"><h3 id="dr-h">Register a wallet</h3><button class="iconbtn" type="button" data-close aria-label="Close"><svg><use href="#i-x"/></svg></button></div>
+  <div class="dbody">
+    <label class="field"><span>Wallet address</span><input class="inp mono" id="f-addr" placeholder="0x…" autocomplete="off" spellcheck="false"><span class="err" id="f-err"></span></label>
+    <label class="field"><span>Label</span><input class="inp" id="f-label" placeholder="e.g. Airdrop campaign 2024" autocomplete="off"></label>
+    <label class="field"><span id="f-group-l">Desk</span><select class="inp" id="f-group"></select></label>
+    <div class="field"><span>Watched on</span><div class="chains"><span class="chip">Ethereum Sepolia</span><span class="chip">Base Sepolia</span></div><small>The same address is watched on both chains automatically.</small></div>
+    <fieldset class="field" style="border:0;margin:0;padding:0">
+      <legend style="font-size:12.5px;font-weight:600;color:var(--ink-2);margin-bottom:6px">Tag</legend>
+      <div class="seg" id="f-tag">
+        <button type="button" data-v="Primary" aria-pressed="false"><b>Primary</b><span>Proves you're active. Receives returns.</span></button>
+        <button type="button" data-v="Cold" aria-pressed="false"><b>Cold</b><span>Never moved automatically.</span></button>
+        <button type="button" data-v="Sweepable" aria-pressed="true"><b>Sweepable</b><span>Returned after reminder + grace.</span></button>
+      </div>
+    </fieldset>
+    <label class="field" id="f-idle-wrap"><span>Return if silent for</span>
+      <select class="inp" id="f-idle"><option value="240">4 minutes (demo)</option><option value="15552000">6 months</option><option value="31536000">1 year</option></select>
+    </label>
+    <div class="summary" id="f-summary"></div>
+    <div class="field"><span>You will sign</span>
+      <ol class="sign"><li><span class="n">1</span>Registration in WalletRegistry, signed by this wallet</li><li><span class="n">2</span>An allowance for the vault. Revocable at any time.</li></ol>
+    </div>
+  </div>
+  <div class="dfoot"><button class="btn btn-ghost" type="button" data-close>Cancel</button><button class="btn btn-accent" type="submit">Sign &amp; register</button></div>
+</form>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* Demo state. Replace with on-chain reads: WalletRegistry (WalletAdded / WalletTagChanged),
+   Vault (lastActivity, Swept, SweepSkipped, config) and HomingReactive callbacks. */
+const now = () => Math.floor(Date.now() / 1000);
+const GRACE = 60;            // vault grace period (demo)
+const CHANGE_DELAY = 600;    // Vault CHANGE_DELAY (demo)
+const INHERIT_AFTER = 600;   // all-silent period before heir can claim (demo)
+
+const ED = {
+  enterprise: {
+    name: 'Enterprise', eyebrow: 'Homing for Enterprise',
+    h1: 'Digital assets should never be forgotten.',
+    lede: 'Automatically monitor, protect, and recover\ninactive wallets across chains.',
+    group: 'Desk', groups: ['Treasury Ops', 'Growth', 'Events', 'Reserves'],
+    dest: 'Treasury Vault', destAddr: '0xA11C…E09F'
+  },
+  family: {
+    name: 'Family Office', eyebrow: 'Homing for Family Offices',
+    h1: 'Protect every wallet across generations.',
+    lede: 'When a wallet goes silent,\nassets return safely to the designated vault.',
+    group: 'Family member', groups: ['Lin · 1st gen', 'Mei · 2nd gen', 'Family trust'],
+    dest: 'Family Vault', destAddr: '0xA11C…E09F'
+  }
+};
+
+const wallets = [
+  { addr: '0xD1a4…7c21', tag: 'Primary',   wait: 0,   lastSeen: now() - 60,    bal: 340,
+    label: { enterprise: 'Ops hot wallet', family: 'Lin · daily wallet' }, group: { enterprise: 'Treasury Ops', family: 'Lin · 1st gen' } },
+  { addr: '0xF0e2…19ab', tag: 'Sweepable', wait: 240, lastSeen: now() - 150,   bal: 120,
+    label: { enterprise: 'Airdrop campaign #3', family: 'Old airdrop wallet' }, group: { enterprise: 'Growth', family: 'Lin · 1st gen' } },
+  { addr: '0xA3b9…44d0', tag: 'Sweepable', wait: 240, lastSeen: now() - 900,   bal: 0, returned: 50,
+    label: { enterprise: 'Event deposits 2025', family: 'College test wallet' }, group: { enterprise: 'Events', family: 'Mei · 2nd gen' } },
+  { addr: '0xC01d…88e3', tag: 'Cold',      wait: 0,   lastSeen: now() - 86400, bal: 500,
+    label: { enterprise: 'Cold reserve', family: 'Family cold storage' }, group: { enterprise: 'Reserves', family: 'Family trust' } },
+];
+
+const log = [
+  { t: '13:34', type: 'return',   ev: 'Returned',          text: '100 HMT moved to the primary wallet', where: 'Vault · onSweep · Sepolia', tx: '0xc7c86e6d…f81c', href: 'https://sepolia.etherscan.io/tx/0xc7c86e6dd0e4ff604e7d2465db54c069353124bad027e474728a04a45f61f81c' },
+  { t: '13:32', type: 'activity', ev: 'Activity',          text: 'Primary wallet sent a transfer, clock reset', where: 'Vault · onActivity · Sepolia', tx: '0x5df95bf1…bb0a', href: 'https://sepolia.etherscan.io/tx/0x5df95bf1bcae5d900885b926a79428f6177fa2a7d7c7043467a27efb4cc2bb0a' },
+  { t: '13:20', type: 'inherit',  ev: 'Heir claim',        text: '70 HMT (primary 20 + cold 50) claimed after 10 min of total silence', where: 'Vault · claim() · Sepolia', tx: '0x177fc329…32af', href: 'https://sepolia.etherscan.io/tx/0x177fc329a9f3eaa53092036de5c5f8182d16c9e9378a73303358ca71e45132af' },
+  { t: '12:30', type: 'registry', ev: 'Registered',        text: '0xF0e2…19ab as sweepable', where: 'WalletRegistry · Sepolia', tx: '0x70da…e541', href: 'https://sepolia.etherscan.io/tx/0x70dab321500f6a93e7975ede13b323ea67e9137dcb9fb84569316bc7a51ee541' },
+];
+const EVC = { activity: 'var(--green)', reminder: 'var(--orange)', return: 'var(--blue)', registry: 'var(--ink-2)', policy: '#7A4FB0', inherit: '#7A4FB0' };
+
+let edition = (new URLSearchParams(location.search).get('edition') || localStorage.getItem('homing-edition') || 'enterprise');
+if (!ED[edition]) edition = 'enterprise';
+let wFilter = 'all', aFilter = 'all', query = '';
+let pending = null;   // { field: 'dest'|'heir', value, at }
+let heir = '0x7e11…a02c (Mei)';
+let destOverride = null;
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const mmss = (s) => { s = Math.max(0, Math.round(s)); const m = Math.floor(s / 60), r = s % 60; return String(m).padStart(2, '0') + ':' + String(r).padStart(2, '0'); };
+const ago = (s) => s < 60 ? s + ' s ago' : s < 3600 ? Math.floor(s / 60) + ' min ago' : s < 86400 ? Math.floor(s / 3600) + ' h ago' : Math.floor(s / 86400) + ' d ago';
+const clock = (d = 0) => new Date(Date.now() + d * 1000).toTimeString().slice(0, 5);
+const fakeTx = () => '0x' + Math.random().toString(16).slice(2, 6) + '…' + Math.random().toString(16).slice(2, 6);
+const destName = () => destOverride || ED[edition].dest;
+
+function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('show'), 2800); }
+function addLog(type, ev, text, where) { log.unshift({ t: clock(), type, ev, text, where, tx: fakeTx() }); renderLog(); }
+
+/* stage: active | reminder | grace | scheduled | home | cold | primary */
+function stage(w) {
+  if (w.tag === 'Cold') return 'cold';
+  if (w.tag === 'Primary') return 'primary';
+  if (w.returned && !w.bal) return 'home';
+  const idle = now() - w.lastSeen;
+  if (idle < w.wait / 2) return 'active';
+  if (w.ack) return 'scheduled';
+  return idle < w.wait ? 'reminder' : 'grace';
+}
+const STAGE = {
+  primary:   ['st-active',   'Active'],
+  active:    ['st-active',   'Active'],
+  reminder:  ['st-reminder', 'Reminder sent'],
+  grace:     ['st-grace',    'Grace period'],
+  scheduled: ['st-sched',    'Return confirmed'],
+  home:      ['st-home',     'Returned'],
+  cold:      ['st-cold',     'Protected'],
+};
+const needsDecision = (w) => ['reminder', 'grace'].includes(stage(w));
+const returnIn = (w) => w.wait + GRACE - (now() - w.lastSeen);
+
+/* ---------- renderers ---------- */
+function renderEdition() {
+  const e = ED[edition];
+  document.body.classList.toggle('family', edition === 'family');
+  document.querySelectorAll('.edition button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.ed === edition)));
+  $('ed-eyebrow').textContent = e.eyebrow;
+  $('h1').textContent = e.h1;
+  $('lede').textContent = e.lede;
+  $('crumb-ed').textContent = e.name;
+  $('th-group').textContent = e.group;
+  $('f-group-l').textContent = e.group;
+  $('f-group').innerHTML = e.groups.map(g => `<option>${esc(g)}</option>`).join('');
+  $('f-label').placeholder = edition === 'family' ? 'e.g. Grandpa’s old wallet' : 'e.g. Airdrop campaign 2024';
+  document.title = 'Homing — ' + e.h1.replace(/\.$/, '').toLowerCase();
+  localStorage.setItem('homing-edition', edition);
+  renderAll();
+}
+
+function renderOverview() {
+  const c = { active: 0, decide: 0, home: 0, cold: 0 };
+  let value = 0, homeTotal = 0;
+  wallets.forEach(w => {
+    const s = stage(w); value += w.bal || 0; homeTotal += w.returned || 0;
+    if (s === 'active' || s === 'primary') c.active++;
+    else if (s === 'reminder' || s === 'grace' || s === 'scheduled') c.decide++;
+    else if (s === 'home') c.home++; else c.cold++;
+  });
+  const open = wallets.filter(needsDecision);
+  const v = $('verdict');
+  if (open.length) {
+    const w = open.sort((a, b) => returnIn(a) - returnIn(b))[0];
+    v.innerHTML = `<div class="ic" style="background:var(--orange-soft);color:var(--orange-ink)"><svg><use href="#i-flag"/></svg></div>
+      <div><b>${open.length} wallet${open.length > 1 ? 's need' : ' needs'} a decision</b><span>${esc(w.label[edition])} has been quiet for ${ago(now() - w.lastSeen).replace(' ago', '')}.</span></div>`;
+  } else {
+    v.innerHTML = `<div class="ic" style="background:var(--green-soft);color:var(--green)"><svg><use href="#i-shield"/></svg></div>
+      <div><b>All wallets accounted for</b><span>Every wallet is active, protected, or already returned.</span></div>`;
+  }
+  const seg = [['var(--green)', c.active, 'Active'], ['var(--orange)', c.decide, 'Going quiet'], ['var(--blue)', c.home, 'Returned'], ['#B9B2A3', c.cold, 'Cold · protected']];
+  $('stack').innerHTML = seg.map(([col, n]) => `<i style="background:${col};flex-grow:${n}"></i>`).join('');
+  $('legend').innerHTML = seg.map(([col, n, l]) => `<div><i style="background:${col}"></i>${l}<b>${n}</b></div>`).join('');
+
+  const upcoming = wallets.filter(w => ['reminder', 'grace', 'scheduled'].includes(stage(w))).sort((a, b) => returnIn(a) - returnIn(b))[0];
+  $('next').innerHTML = upcoming
+    ? `Next scheduled action: <b>${upcoming.bal} HMT</b> from ${esc(upcoming.label[edition])} returns to <b>${esc(destName())}</b> at <b>${clock(returnIn(upcoming))}</b>.`
+    : `No actions scheduled. Homing checks wallets about every 2 minutes.`;
+
+  $('k-value').innerHTML = value.toLocaleString() + '<small>HMT</small>';
+  $('k-wallets').textContent = wallets.length;
+  $('k-decide').textContent = open.length;
+  $('k-home').innerHTML = homeTotal.toLocaleString() + '<small>HMT</small>';
+  $('k-home-l').textContent = 'Returned to ' + destName();
+  const nc = $('nav-count'); nc.textContent = open.length || ''; nc.dataset.n = open.length;
+}
+
+function renderDecisions() {
+  const list = wallets.map((w, i) => ({ w, i })).filter(({ w }) => needsDecision(w)).sort((a, b) => returnIn(a.w) - returnIn(b.w));
+  if (!list.length) {
+    $('dlist').innerHTML = `<div class="card empty"><div class="ic"><svg width="20" height="20"><use href="#i-check"/></svg></div>
+      <div><b style="color:var(--ink);display:block">Nothing needs you right now</b>Every wallet is active, protected, or already home. We'll flag a wallet here the moment it goes quiet.</div></div>`;
+    return;
+  }
+  $('dlist').innerHTML = list.map(({ w, i }) => {
+    const s = stage(w), idle = now() - w.lastSeen, total = w.wait + GRACE, left = returnIn(w);
+    const pct = Math.min(100, idle / total * 100);
+    const half = (w.wait / 2) / total * 100, waitEnd = w.wait / total * 100;
+    const marks = `<div class="marks" style="grid-template-columns:${half}% ${waitEnd - half}% ${100 - waitEnd}% 0">
+        <span class="${idle >= 0 ? 'done' : ''}">Last activity</span><span class="${idle >= w.wait / 2 ? 'done' : ''}">Reminder</span><span class="${idle >= w.wait ? 'done' : ''}">Grace</span><span style="position:absolute;right:0;padding-left:0">Return</span></div>`;
+    const reco = s === 'grace'
+      ? `<b>Grace period has started.</b> If this wallet is still in use, reset the timer now. Otherwise ${w.bal} HMT returns to ${esc(destName())} at ${clock(left)}.`
+      : `<b>Recommended:</b> confirm whether ${esc(w.label[edition])} is still in use. If you do nothing, ${w.bal} HMT returns to ${esc(destName())} at ${clock(left)}.`;
+    return `<article class="card dcard ${s}">
+      <div class="dtop">
+        <div>
+          <div class="wname">${esc(w.label[edition])}</div>
+          <div class="wsub"><span class="mono">${esc(w.addr)}</span><i class="sep"></i>${esc(w.group[edition])}<i class="sep"></i>${w.bal} HMT<i class="sep"></i><span class="st ${STAGE[s][0]}">${STAGE[s][1]}</span></div>
+        </div>
+        <div class="eta"><div class="t" data-cd="${i}">${mmss(left)}</div><div class="s">until return</div></div>
+      </div>
+      <div class="track"><div class="rail"><div class="fill" style="width:${pct}%"></div></div>${marks}</div>
+      <div class="reco"><svg><use href="#i-bulb"/></svg><div>${reco}</div></div>
+      <div class="acts">
+        <button class="btn btn-primary btn-sm" type="button" data-act="reset" data-i="${i}"><svg><use href="#i-reset"/></svg>Still in use, reset timer</button>
+        <button class="btn btn-line btn-sm" type="button" data-act="cold" data-i="${i}"><svg><use href="#i-snow"/></svg>Stop returns (tag Cold)</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-act="ack" data-i="${i}">Let it return</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function renderPolicy() {
+  const fam = edition === 'family';
+  const sw = wallets.find(w => w.tag === 'Sweepable' && needsDecision(w));
+  const s = sw ? stage(sw) : null;
+  const steps = [
+    ['Active', 'Any outgoing transfer on any watched chain resets the clock.', 'always', !sw],
+    ['Reminder', 'Sent at half the silence threshold.', '50% · 2 min', s === 'reminder'],
+    ['Grace period', 'Last chance to reset before funds move.', GRACE / 60 + ' min', s === 'grace'],
+    ['Return home', `Vault re-checks, then moves tokens to ${destName()}.`, 'auto', false],
+  ];
+  if (fam) steps.push(['Inheritance', 'If every wallet stays silent, the heir can claim.', '10 min · demo', false]);
+  $('steps').innerHTML = steps.map(([t, d, v, hot], k) => `<li class="${hot ? 'hot' : ''}"><span class="n">${k + 1}</span><div><b>${t}</b><span>${esc(d)}</span></div><span class="val">${esc(v)}</span></li>`).join('');
+  $('dest-label').textContent = fam ? 'Designated vault' : 'Return destination';
+  $('dest-now').textContent = destName() + ' · ' + ED[edition].destAddr;
+  $('heir-now').textContent = heir;
+
+  if (pending) {
+    const left = pending.at - now();
+    $('pending').innerHTML = `<div class="pending"><svg width="18" height="18"><use href="#i-clock"/></svg><div><b>${pending.field === 'heir' ? 'Heir' : 'Destination'} change pending</b><br>${esc(pending.value)} takes effect in <b>${mmss(left)}</b></div><button class="btn btn-line btn-sm" type="button" id="cancel-change">Cancel</button></div>`;
+  } else $('pending').innerHTML = '';
+
+  if (fam) {
+    const minIdle = Math.min(...wallets.filter(w => !(w.returned && !w.bal)).map(w => now() - w.lastSeen));
+    const coldIn = $('cold-opt').checked;
+    const claimable = wallets.filter(w => w.tag === 'Primary' || (coldIn && w.tag === 'Cold')).reduce((a, w) => a + (w.bal || 0), 0);
+    $('readiness').innerHTML = `
+      <div><span>Heir can claim</span><b>${minIdle >= INHERIT_AFTER ? 'Now' : 'in ' + mmss(INHERIT_AFTER - minIdle) + ' of total silence'}</b></div>
+      <div><span>Would pass to heir today</span><b>${claimable} HMT</b></div>
+      <div><span>Most recent sign of life</span><b>${ago(minIdle)}</b></div>`;
+  }
+}
+
+function renderWallets() {
+  const counts = { all: wallets.length, decide: 0, active: 0, home: 0, cold: 0 };
+  wallets.forEach(w => { const s = stage(w); if (needsDecision(w)) counts.decide++; else if (s === 'active' || s === 'primary') counts.active++; else if (s === 'home' || s === 'scheduled') counts.home++; else counts.cold++; });
+  const F = [['all', 'All'], ['decide', 'Needs decision'], ['active', 'Active'], ['home', 'Returned'], ['cold', 'Cold']];
+  $('wfilters').innerHTML = F.map(([k, l]) => `<button class="filt" type="button" data-wf="${k}" aria-pressed="${wFilter === k}">${l}<span class="c">${counts[k]}</span></button>`).join('');
+
+  const q = query.toLowerCase();
+  const rows = wallets.map((w, i) => ({ w, i, s: stage(w) })).filter(({ w, s }) => {
+    if (q && !(w.addr + w.label[edition] + w.group[edition]).toLowerCase().includes(q)) return false;
+    if (wFilter === 'decide') return needsDecision(w);
+    if (wFilter === 'active') return s === 'active' || s === 'primary';
+    if (wFilter === 'home') return s === 'home' || s === 'scheduled';
+    if (wFilter === 'cold') return s === 'cold';
+    return true;
+  });
+  $('wbody').innerHTML = rows.length ? rows.map(({ w, i, s }) => {
+    const icon = { Primary: 'i-wallet', Cold: 'i-snow', Sweepable: 'i-home' }[w.tag];
+    let nextStep = '—';
+    if (s === 'primary') nextStep = 'Receives returns';
+    else if (s === 'active') nextStep = `Reminder in ${mmss(w.wait / 2 - (now() - w.lastSeen))}`;
+    else if (['reminder', 'grace', 'scheduled'].includes(s)) nextStep = `<b style="color:var(--orange-ink)">Return in <span data-cd="${i}">${mmss(returnIn(w))}</span></b>`;
+    else if (s === 'home') nextStep = `${w.returned} HMT returned`;
+    else if (s === 'cold') nextStep = edition === 'family' && $('cold-opt').checked ? 'Inheritance only' : 'Never moved';
+    const sweep = w.tag === 'Sweepable' && s !== 'home';
+    return `<tr>
+      <td><div class="wcell"><span class="avatar"><svg><use href="#${icon}"/></svg></span><div><b>${esc(w.label[edition])}</b><span class="mono">${esc(w.addr)}</span></div></div></td>
+      <td>${esc(w.group[edition])}</td>
+      <td><span class="tag">${esc(w.tag)}</span></td>
+      <td class="r">${(w.bal || 0).toLocaleString()} <span class="muted">HMT</span></td>
+      <td class="muted">${ago(now() - w.lastSeen)}</td>
+      <td><span class="st ${STAGE[s][0]}">${STAGE[s][1]}</span></td>
+      <td>${nextStep}</td>
+      <td class="r"><div class="rowacts">
+        <button class="iconbtn" type="button" title="Still in use: reset timer" aria-label="Reset timer for ${esc(w.label[edition])}" data-act="reset" data-i="${i}" ${sweep ? '' : 'disabled'}><svg><use href="#i-reset"/></svg></button>
+        <button class="iconbtn" type="button" title="Tag as Cold: never move automatically" aria-label="Tag ${esc(w.label[edition])} as cold" data-act="cold" data-i="${i}" ${sweep ? '' : 'disabled'}><svg><use href="#i-snow"/></svg></button>
+      </div></td></tr>`;
+  }).join('') : `<tr><td colspan="8" class="muted" style="padding:28px 14px;text-align:center">No wallets match this filter.</td></tr>`;
+}
+
+function renderLog() {
+  const F = [['all', 'All'], ['activity', 'Activity'], ['reminder', 'Reminders'], ['return', 'Returns'], ['registry', 'Registry'], ['policy', 'Policy']];
+  $('afilters').innerHTML = F.map(([k, l]) => `<button class="filt" type="button" data-af="${k}" aria-pressed="${aFilter === k}">${l}</button>`).join('');
+  const rows = log.filter(e => aFilter === 'all' || e.type === aFilter || (aFilter === 'policy' && e.type === 'inherit'));
+  $('abody').innerHTML = rows.length ? rows.map(e => `<tr>
+      <td class="mono muted">${esc(e.t)}</td>
+      <td><span class="ev"><i style="background:${EVC[e.type]}"></i>${esc(e.ev)}</span></td>
+      <td>${esc(e.text)}</td>
+      <td class="muted">${esc(e.where)}</td>
+      <td>${e.href ? `<a class="tx mono" href="${e.href}" target="_blank" rel="noopener">${esc(e.tx)} ↗</a>` : `<span class="mono muted" title="Demo transaction">${esc(e.tx)}</span>`}</td>
+    </tr>`).join('') : `<tr><td colspan="5" class="muted" style="padding:28px 14px;text-align:center">No events of this type yet.</td></tr>`;
+}
+
+function renderSummary() {
+  const tag = document.querySelector('#f-tag [aria-pressed="true"]').dataset.v;
+  $('f-idle-wrap').style.display = tag === 'Sweepable' ? '' : 'none';
+  const idleTxt = $('f-idle').selectedOptions[0].textContent;
+  const fam = edition === 'family';
+  const txt = {
+    Sweepable: `If this wallet sends nothing for <b>${esc(idleTxt)}</b>, you get a reminder at half-time, then a ${GRACE / 60}-minute grace period. After that its tokens return to <b>${esc(destName())}</b>.`,
+    Primary: `This wallet's activity proves you're still here. It is never moved, and it receives returned tokens${fam ? '. On inheritance, its balance passes to your heir' : ''}.`,
+    Cold: `This wallet is never moved automatically${fam ? '. It passes to your heir only if “Include cold wallets” is on' : ''}.`
+  }[tag];
+  $('f-summary').innerHTML = `<span class="h-label">What will happen</span><div>${txt}</div>`;
+}
+
+let lastStages = new Map();
+function renderAll() { renderOverview(); renderDecisions(); renderPolicy(); renderWallets(); renderLog(); }
+
+/* ---------- live tick ---------- */
+function tick() {
+  let structural = false;
+  wallets.forEach((w, i) => {
+    const s = stage(w), prev = lastStages.get(i);
+    if (prev && prev !== s) {
+      structural = true;
+      if (s === 'reminder') addLog('reminder', 'Reminder', `${w.label[edition]} (${w.addr}) quiet for half its limit`, 'HomingReactive · Lasna');
+    }
+    lastStages.set(i, s);
+    if (w.tag === 'Sweepable' && w.bal && now() - w.lastSeen >= w.wait + GRACE) {
+      const amt = w.bal; w.returned = (w.returned || 0) + amt; w.bal = 0; w.ack = false;
+      wallets.find(x => x.tag === 'Primary').bal += amt;
+      addLog('reminder', 'Return requested', `for ${w.addr} after ${mmss(w.wait + GRACE)} of silence`, 'HomingReactive · react() · Lasna');
+      addLog('return', 'Returned', `${amt} HMT from ${w.addr} to ${destName()}`, 'Vault · onSweep · Sepolia');
+      toast(`${w.label[edition]} is home. ${amt} HMT returned.`);
+      structural = true;
+    }
+  });
+  if (pending && now() >= pending.at) {
+    if (pending.field === 'heir') heir = pending.value; else destOverride = pending.value;
+    addLog('policy', 'Change applied', `${pending.field === 'heir' ? 'Heir' : 'Destination'} is now ${pending.value}`, 'Vault · applyConfigChange · Sepolia');
+    toast('Policy change is now in effect.');
+    pending = null; structural = true;
+  }
+  if (structural) { renderAll(); return; }
+  // light update: countdowns, progress, relative times
+  document.querySelectorAll('[data-cd]').forEach(el => { el.textContent = mmss(returnIn(wallets[+el.dataset.cd])); });
+  renderOverview(); renderPolicy();
+  document.querySelectorAll('.dcard .fill').forEach((el, k) => {
+    const ids = wallets.map((w, i) => ({ w, i })).filter(({ w }) => needsDecision(w)).sort((a, b) => returnIn(a.w) - returnIn(b.w));
+    const w = ids[k] && ids[k].w; if (w) el.style.width = Math.min(100, (now() - w.lastSeen) / (w.wait + GRACE) * 100) + '%';
+  });
+  if (now() % 5 === 0) renderWallets();
+}
+
+/* ---------- interactions ---------- */
+document.addEventListener('click', (e) => {
+  const ed = e.target.closest('[data-ed]');
+  if (ed) { edition = ed.dataset.ed; renderEdition(); return; }
+
+  const act = e.target.closest('[data-act]');
+  if (act) {
+    const w = wallets[+act.dataset.i], name = w.label[edition];
+    if (act.dataset.act === 'reset') {
+      w.lastSeen = now(); w.ack = false;
+      addLog('activity', 'Activity', `${name} (${w.addr}) sent a transfer, clock reset`, 'Vault · onActivity · Sepolia');
+      toast('Timer reset. ' + name + ' stays where it is.');
+    } else if (act.dataset.act === 'cold') {
+      w.tag = 'Cold'; w.ack = false;
+      addLog('registry', 'Tag changed', `${name} (${w.addr}) → Cold. Returns stopped.`, 'WalletRegistry · WalletTagChanged · Sepolia');
+      toast(name + ' is now Cold. It will never be moved automatically.');
+    } else if (act.dataset.act === 'ack') {
+      w.ack = true;
+      toast(`Confirmed. ${w.bal} HMT returns to ${destName()} at ${clock(returnIn(w))}.`);
+    }
+    renderAll(); return;
+  }
+
+  const wf = e.target.closest('[data-wf]');
+  if (wf) { wFilter = wf.dataset.wf; renderWallets(); return; }
+  const af = e.target.closest('[data-af]');
+  if (af) { aFilter = af.dataset.af; renderLog(); return; }
+
+  if (e.target.closest('#cancel-change')) {
+    addLog('policy', 'Change cancelled', `${pending.field === 'heir' ? 'Heir' : 'Destination'} change to ${pending.value} withdrawn`, 'Vault · Sepolia');
+    pending = null; renderPolicy(); toast('Pending change cancelled.'); return;
+  }
+  if (e.target.closest('[data-open-drawer]')) { openDrawer(true); return; }
+  if (e.target.closest('[data-close]') || e.target.id === 'scrim') { openDrawer(false); return; }
+});
+
+function requestChange(field) {
+  const inp = $(field === 'heir' ? 'heir-in' : 'dest-in'), raw = inp.value.trim();
+  if (!/^0x[0-9a-fA-F]{40}$/.test(raw)) { toast('Enter a full 0x address (42 characters).'); inp.focus(); return; }
+  if (pending) { toast('One change is already pending. Cancel it first.'); return; }
+  const short = raw.slice(0, 6) + '…' + raw.slice(-4);
+  pending = { field, value: short, at: now() + CHANGE_DELAY };
+  inp.value = '';
+  addLog('policy', 'Change requested', `${field === 'heir' ? 'Heir' : 'Destination'} → ${short}, effective in 10 min`, 'Vault · requestConfigChange · Sepolia');
+  renderPolicy(); toast('Change requested. It takes effect after the 10-minute safety delay.');
+}
+$('dest-btn').addEventListener('click', () => requestChange('dest'));
+$('heir-btn').addEventListener('click', () => requestChange('heir'));
+$('cold-opt').addEventListener('change', () => { renderPolicy(); renderWallets(); });
+$('q').addEventListener('input', (e) => { query = e.target.value.trim(); renderWallets(); if (query) document.getElementById('wallets').scrollIntoView(); });
+
+function openDrawer(on) {
+  $('drawer').classList.toggle('show', on); $('scrim').classList.toggle('show', on);
+  $('drawer').setAttribute('aria-hidden', String(!on));
+  if (on) { renderSummary(); setTimeout(() => $('f-addr').focus(), 200); }
+}
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') openDrawer(false); });
+document.querySelectorAll('#f-tag button').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('#f-tag button').forEach(x => x.setAttribute('aria-pressed', 'false'));
+  b.setAttribute('aria-pressed', 'true'); renderSummary();
+}));
+$('f-idle').addEventListener('change', renderSummary);
+
+$('drawer').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const raw = $('f-addr').value.trim();
+  if (!/^0x[0-9a-fA-F]{40}$/.test(raw)) { $('f-err').textContent = 'Enter a full 0x… address (42 characters).'; $('f-addr').focus(); return; }
+  $('f-err').textContent = '';
+  const short = raw.slice(0, 6) + '…' + raw.slice(-4);
+  const tag = document.querySelector('#f-tag [aria-pressed="true"]').dataset.v;
+  const label = $('f-label').value.trim() || 'Wallet ' + short;
+  const g = $('f-group').value;
+  wallets.push({ addr: short, tag, wait: tag === 'Sweepable' ? +$('f-idle').value : 0, lastSeen: now(), bal: tag === 'Sweepable' ? 25 : 0,
+    label: { enterprise: label, family: label }, group: { enterprise: edition === 'enterprise' ? g : ED.enterprise.groups[0], family: edition === 'family' ? g : ED.family.groups[0] } });
+  addLog('registry', 'Registered', `${label} (${short}) as ${tag.toLowerCase()}`, 'WalletRegistry · WalletAdded · Sepolia');
+  $('f-addr').value = ''; $('f-label').value = '';
+  openDrawer(false); renderAll(); toast('Registered. Homing is now watching ' + short + '.');
+});
+
+$('connect').addEventListener('click', () => {
+  $('connect').querySelector('span').textContent = '0xA11C…E09F';
+  toast('Demo: connected. Real wallet connection goes here (wagmi / viem).');
+});
+
+/* sidebar highlight */
+const navLinks = [...document.querySelectorAll('.nav a')];
+const titles = { overview: 'Overview', decisions: 'Decisions & policy', wallets: 'Wallets', activity: 'Audit trail', contracts: 'Contracts' };
+const io = new IntersectionObserver((ents) => {
+  ents.forEach(en => {
+    if (!en.isIntersecting) return;
+    const id = en.target.id;
+    navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + id && a === navLinks.find(x => x.getAttribute('href') === '#' + id)));
+    $('crumb-title').textContent = titles[id] || 'Overview';
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+['overview', 'decisions', 'wallets', 'activity', 'contracts'].forEach(id => io.observe($(id)));
+
+wallets.forEach((w, i) => lastStages.set(i, stage(w)));
+renderEdition();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
